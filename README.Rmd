@@ -1,0 +1,180 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# Mixture of Markov Chain with Support of Higher Orders and Multiple Sequences
+
+<!-- badges: start -->
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![CRAN status](https://www.r-pkg.org/badges/version/markovmix)](https://CRAN.R-project.org/package=markovmix)
+[![R-CMD-check](https://github.com/zhuxr11/markovmix/workflows/R-CMD-check/badge.svg)](https://github.com/zhuxr11/markovmix/actions)
+[![Codecov test coverage](https://codecov.io/gh/zhuxr11/markovmix/branch/master/graph/badge.svg)](https://app.codecov.io/gh/zhuxr11/markovmix?branch=master)
+<!-- badges: end -->
+
+**Package**: [*markovmix*](https://github.com/zhuxr11/markovmix) `r pkgload::pkg_version()`<br />
+**Author**: Xiurui Zhu<br />
+**Modified**: `r file.info("README.Rmd")$mtime`<br />
+**Compiled**: `r Sys.time()`
+
+The goal of `markovmix` is to fit mixture of Markov chains of higher orders from multiple sequences.
+It is also compatible with ordinary 1-component, 1-order or single-sequence Markov chains.
+In addition to the fit function, custom print and predict functions are also provided.
+Core functions are written with `Rcpp` to efficiently process sequences and probabilities.
+
+## Installation
+
+You can install the released version of `markovmix` from [CRAN](https://cran.r-project.org/) with:
+
+``` r
+install.packages("markovmix")
+```
+
+Alternatively, you can install the developmental version of `markovmix` from [github](https://github.com/) with:
+
+``` r
+remotes::install_github("zhuxr11/markovmix")
+```
+
+## Examples of fitting (mixture of) Markov chains
+
+Before start, we generate some sequences with a finite set of states, just as those to fit a Markov chain.
+
+```{r library, eval=FALSE}
+library(markovmix)
+```
+
+```{r, include=FALSE}
+pkgload::load_all()
+```
+
+```{r data-prep}
+library(purrr)
+
+# Define Markov states
+mk_states <- LETTERS[seq_len(4L)]
+# Define number of sequences
+mk_size <- 100L
+# Define sequence length range
+mk_len_range <- seq_len(10L)
+# Define a helper function to generate sequence list
+gen_seq_list <- function(size, len_range, states, seed = NULL) {
+  if (is.null(seed) == FALSE) {
+    set.seed(seed)
+  }
+  purrr::rerun(.n = size, sample(states, sample(len_range, 1L), replace = TRUE))
+}
+mk_seq_list <- gen_seq_list(size = mk_size, len_range = mk_len_range, states = mk_states, seed = 1111L)
+head(mk_seq_list)
+```
+
+First, we fit a 1-order Markov chain, the most commonly used type.
+
+```{r}
+mk_fit <- fit_markov_mix(seq_list = mk_seq_list, states = mk_states)
+print(mk_fit)
+```
+
+Then, we fit a 2-order Markov chain.
+
+```{r}
+mk_fit2 <- fit_markov_mix(seq_list = mk_seq_list, order. = 2L, states = mk_states)
+print(mk_fit2)
+```
+
+Finally, we fit a 3-component mixture of 2-order Markov chain, with randomly generated soft clustering probabilities for each sequence.
+
+```{r}
+# Define number of components
+mk_n_comp <- 3L
+set.seed(2222L)
+mk_clusters <- matrix(runif(length(mk_seq_list) * mk_n_comp), nrow = length(mk_seq_list), ncol = mk_n_comp)
+mk_mix_fit2 <- fit_markov_mix(seq_list = mk_seq_list, order. = 2L, states = mk_states, clusters = mk_clusters)
+print(mk_mix_fit2)
+```
+
+## Examples of predicting (mixture of) Markov chains
+
+Before start, we generate some sequences for prediction.
+
+```{r data-prep-pred}
+mk_pred_seq_list <- gen_seq_list(size = 50L, len_range = mk_len_range, states = mk_states, seed = 3333L)
+```
+
+We predict the probabilities of each sequence in the generated mixture of Markov chains.
+
+```{r}
+mk_pred_res <- predict(mk_mix_fit2, newdata = mk_pred_seq_list)
+print(mk_pred_res)
+```
+
+Please note that `NA` values are assigned to the probabilities of sequences if no valid sub-sequences (e.g. those of length `r mk_mix_fit2[["order"]] + 1` or longer).
+
+```{r}
+print(purrr::map_int(mk_pred_seq_list[is.na(mk_pred_res) == TRUE], length))
+```
+
+To predict the sequences in each component of the mixture of Markov chains, we can use `aggregate. = FALSE`.
+
+```{r}
+mk_pred_res_comp <- predict(mk_mix_fit2, newdata = mk_pred_seq_list, aggregate. = FALSE)
+print(head(mk_pred_res_comp, n = 10L))
+```
+
+## Time of computation
+
+The core functions of `markovmix` are written with `Rcpp` to efficiently process sequences and probabilities. Here, time of computation is profiled with the number of sequences.
+
+```{r toc, cache=TRUE}
+# Define sequence lengths for ToC profiling
+mk_toc_seq_len <- as.integer(outer(c(1L, 2L, 5L), 10^(seq_len(5L) - 1L)))
+set.seed(4444L)
+mk_toc_seq_list <- purrr::map(
+  mk_toc_seq_len,
+  ~ gen_seq_list(size = .x, len_range = mk_len_range, states = mk_states)
+)
+mk_toc_clusters <- purrr::map(
+  mk_toc_seq_len,
+  ~ matrix(runif(.x * mk_n_comp), nrow = .x, ncol = mk_n_comp)
+)
+# Define repetition times for ToC profiling
+mk_toc_n_times <- 5L
+mk_toc <- purrr::map2(
+  mk_toc_seq_list,
+  mk_toc_clusters,
+  ~ purrr::rerun(.n = mk_toc_n_times, {
+    system.time(fit_markov_mix(.x, order. = 2L, states = mk_states, clusters = .y, verbose = FALSE))[["elapsed"]]
+  }) %>%
+    purrr::flatten_dbl()
+)
+```
+
+```{r toc-plots}
+ggplot2::ggplot(tibble::tibble(seq_len = rep(mk_toc_seq_len, each = mk_toc_n_times),
+                               toc = unlist(mk_toc)) %>%
+                  dplyr::group_by(seq_len) %>%
+                  dplyr::summarize(toc_mean = mean(toc, na.rm = TRUE),
+                                   toc_sd = sd(toc, na.rm = TRUE),
+                                   .groups = "drop"),
+                ggplot2::aes(x = seq_len, y = toc_mean)) +
+  ggplot2::geom_line() +
+  ggplot2::geom_point() +
+  ggplot2::geom_errorbar(ggplot2::aes(ymin = pmax(toc_mean - toc_sd, 1e-4),
+                                      ymax = toc_mean + toc_sd)) +
+  ggplot2::scale_x_log10(breaks = mk_toc_seq_len) +
+  ggplot2::scale_y_log10() +
+  ggplot2::theme_bw() +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, vjust = 1)) +
+  ggplot2::labs(x = "Number of sequences", y = "Time of computation (s)")
+```
+
