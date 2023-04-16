@@ -33,6 +33,7 @@ Collate:
     'markov_mix.R'
     'markovmix-package.R'
 Suggests: 
+    covr,
     ggplot2 (>= 3.4.2),
     testthat (>= 3.1.7)
 Depends: 
