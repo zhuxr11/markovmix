@@ -4,7 +4,7 @@
 \alias{predict.MarkovMix}
 \title{Predict probabilities with MarkovMix object and new sequence list}
 \usage{
-\method{predict}{MarkovMix}(object, newdata, aggregate. = TRUE)
+\method{predict}{MarkovMix}(object, newdata, aggregate. = TRUE, ...)
 }
 \arguments{
 \item{object}{\code{\link{MarkovMix}} object.}
@@ -14,6 +14,8 @@
 \item{aggregate.}{Logical (1L) indicating whether probabilities
 from each component should be weighted mean by component priors
 (\code{TRUE}) or not (\code{FALSE}).}
+
+\item{...}{Currently ignored for this method.}
 }
 \value{
 For \code{aggregate. = TRUE}, a numeric vector of probabilities.

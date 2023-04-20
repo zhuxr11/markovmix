@@ -92,6 +92,7 @@ fit_markov_mix <- function(seq_list, order. = 1L, states = NULL, clusters = NULL
 #' @param x \code{\link{MarkovMix}} object.
 #' @param sep Character (1L) used as separator between states in the row names of transition matrix.
 #' @param print_max Integer as the maximal number of rows to print each transition matrix.
+#' @param ... Currently ignored for this method.
 #'
 #' @return Input \code{x}, invisibly.
 #'
@@ -106,7 +107,7 @@ fit_markov_mix <- function(seq_list, order. = 1L, states = NULL, clusters = NULL
 #' @family \code{\link{MarkovMix}} methods
 #'
 #' @example man-roxygen/ex-fit_markov_mix.R
-print.MarkovMix <- function(x, sep = "->", print_max = 10L) {
+print.MarkovMix <- function(x, sep = "->", print_max = 10L, ...) {
   count_mat <- x[["counts"]]
   order. <- x[["order"]]
   states <- x[["states"]]
@@ -165,6 +166,7 @@ print.MarkovMix <- function(x, sep = "->", print_max = 10L) {
 #' @param aggregate. Logical (1L) indicating whether probabilities
 #' from each component should be weighted mean by component priors
 #' (\code{TRUE}) or not (\code{FALSE}).
+#' @param ... Currently ignored for this method.
 #'
 #' @return For \code{aggregate. = TRUE}, a numeric vector of probabilities.
 #' For \code{aggregate. = TRUE}, a numeric matrix of probabilities
@@ -181,7 +183,7 @@ print.MarkovMix <- function(x, sep = "->", print_max = 10L) {
 #' @family \code{\link{MarkovMix}} methods
 #'
 #' @example man-roxygen/ex-predict_markov_mix.R
-predict.MarkovMix <- function(object, newdata, aggregate. = TRUE) {
+predict.MarkovMix <- function(object, newdata, aggregate. = TRUE, ...) {
   prob_mat <- get_prob(object = object, check = FALSE)
   order. <- object[["order"]]
   states <- object[["states"]]
