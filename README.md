@@ -15,8 +15,8 @@ coverage](https://codecov.io/gh/zhuxr11/markovmix/branch/master/graph/badge.svg)
 <!-- badges: end -->
 
 **Package**: [*markovmix*](https://github.com/zhuxr11/markovmix)
-0.1.0<br /> **Author**: Xiurui Zhu<br /> **Modified**: 2023-04-16
-22:24:19<br /> **Compiled**: 2023-04-16 22:24:24
+0.1.0<br /> **Author**: Xiurui Zhu<br /> **Modified**: 2023-04-20
+22:27:01<br /> **Compiled**: 2023-04-20 22:27:04
 
 The goal of `markovmix` is to fit mixture of Markov chains of higher
 orders from multiple sequences. It is also compatible with ordinary
@@ -209,7 +209,8 @@ print(mk_pred_res)
 ```
 
 Please note that `NA` values are assigned to the probabilities of
-sequences if no valid sub-sequences (e.g. those of length 3 or longer).
+sequences if no valid sub-sequences (such as those of length 3 or
+longer).
 
 ``` r
 print(purrr::map_int(mk_pred_seq_list[is.na(mk_pred_res) == TRUE], length))

@@ -118,7 +118,7 @@ mk_pred_res <- predict(mk_mix_fit2, newdata = mk_pred_seq_list)
 print(mk_pred_res)
 ```
 
-Please note that `NA` values are assigned to the probabilities of sequences if no valid sub-sequences (e.g. those of length `r mk_mix_fit2[["order"]] + 1` or longer).
+Please note that `NA` values are assigned to the probabilities of sequences if no valid sub-sequences (such as those of length `r mk_mix_fit2[["order"]] + 1` or longer).
 
 ```{r}
 print(purrr::map_int(mk_pred_seq_list[is.na(mk_pred_res) == TRUE], length))
