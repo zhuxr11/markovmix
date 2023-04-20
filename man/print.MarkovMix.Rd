@@ -11,7 +11,7 @@
 
 \item{sep}{Character (1L) used as separator between states in the row names of transition matrix.}
 
-\item{pring_max}{Integer as the maximal number of rows to print each transition matrix.}
+\item{print_max}{Integer as the maximal number of rows to print each transition matrix.}
 }
 \value{
 Input \code{x}, invisibly.

@@ -91,7 +91,7 @@ fit_markov_mix <- function(seq_list, order. = 1L, states = NULL, clusters = NULL
 #'
 #' @param x \code{\link{MarkovMix}} object.
 #' @param sep Character (1L) used as separator between states in the row names of transition matrix.
-#' @param pring_max Integer as the maximal number of rows to print each transition matrix.
+#' @param print_max Integer as the maximal number of rows to print each transition matrix.
 #'
 #' @return Input \code{x}, invisibly.
 #'
