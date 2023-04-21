@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Mixture of Markov Chain with Support of Higher Orders and Multiple Sequences
+# Mixture of Markov Chains with Support of Higher Orders and Multiple Sequences
 
 <!-- badges: start -->
 
@@ -15,8 +15,8 @@ coverage](https://codecov.io/gh/zhuxr11/markovmix/branch/master/graph/badge.svg)
 <!-- badges: end -->
 
 **Package**: [*markovmix*](https://github.com/zhuxr11/markovmix)
-0.1.0<br /> **Author**: Xiurui Zhu<br /> **Modified**: 2023-04-20
-22:27:01<br /> **Compiled**: 2023-04-20 22:27:04
+0.1.0<br /> **Author**: Xiurui Zhu<br /> **Modified**: 2023-04-22
+00:30:43<br /> **Compiled**: 2023-04-22 00:30:47
 
 The goal of `markovmix` is to fit mixture of Markov chains of higher
 orders from multiple sequences. It is also compatible with ordinary
@@ -124,7 +124,7 @@ print(mk_fit2)
 #> # ... 6 more rows in transition matrix ...
 ```
 
-Finally, we fit a 3-component mixture of 2-order Markov chain, with
+Finally, we fit a 3-component mixture of 2-order Markov chains, with
 randomly generated soft clustering probabilities for each sequence.
 
 ``` r

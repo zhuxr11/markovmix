@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Mixture of Markov Chain with Support of Higher Orders and Multiple Sequences
+# Mixture of Markov Chains with Support of Higher Orders and Multiple Sequences
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
@@ -92,7 +92,7 @@ mk_fit2 <- fit_markov_mix(seq_list = mk_seq_list, order. = 2L, states = mk_state
 print(mk_fit2)
 ```
 
-Finally, we fit a 3-component mixture of 2-order Markov chain, with randomly generated soft clustering probabilities for each sequence.
+Finally, we fit a 3-component mixture of 2-order Markov chains, with randomly generated soft clustering probabilities for each sequence.
 
 ```{r}
 # Define number of components
