@@ -9,7 +9,9 @@ NULL
 #' Each column is arranged in the ascending order of the states.
 #' The last column serves as the destination state and iterates the fastest.
 #'
-#' @inheritParams get_prob
+#' @param object \code{\link{MarkovMix}} object.
+#' @param check Logical (1L) indicating whether to check \code{object}
+#' at the beginning.
 #'
 #' @return A matrix indicating the state transition patterns.
 #'
@@ -42,9 +44,7 @@ get_states_mat <- function(object, check = TRUE) {
 #' \code{get_prob} gets probability matrix from \code{\link{MarkovMix}} object.
 #' It normalizes each column in the count matrix to sum up to 1.
 #'
-#' @param object \code{\link{MarkovMix}} object.
-#' @param check Logical (1L) indicating whether to check \code{object}
-#' at the beginning.
+#' @inheritParams get_states_mat
 #'
 #' @return A numeric matrix indicating probabilities of each state transition pattern in each component.
 #'
@@ -72,7 +72,7 @@ get_prob <- function(object, check = TRUE) {
 #' \code{get_prior} gets component priors from \code{\link{MarkovMix}} object,
 #' normalized to sum up to 1.
 #'
-#' @inheritParams get_prob
+#' @inheritParams get_states_mat
 #'
 #' @return A numeric vector indicates component priors.
 #'
@@ -94,4 +94,65 @@ get_prior <- function(object, check = TRUE) {
   count_mat <- object[["counts"]]
   comp_prior <- colSums(count_mat, na.rm = TRUE)
   comp_prior / sum(comp_prior, na.rm = TRUE)
+}
+
+#' Reorganize states in MarkovMix object
+#'
+#' \code{restate} reorganizes states in \code{\link{MarkovMix}} object with a function.
+#'
+#' @importFrom rlang inject !!!
+#'
+#' @param .object \code{\link{MarkovMix}} object.
+#' @param .fun Function to process each column in state transition patterns as factors,
+#' such as those in \code{\link[forcats:forcats-package]{forcats}} package.
+#' @param .check Logical (1L) indicating whether to check \code{object}
+#' at the beginning.
+#' @param ... Additional arguments passed on to \code{.fun}.
+#'
+#' @return A \code{\link{MarkovMix}} object with modified states and count matrix.
+#'
+#' @note Change log:
+#' \itemize{
+#'   \item{0.1.0 Xiurui Zhu - Initiate the class.}
+#' }
+#' @author Xiurui Zhu
+#'
+#' @export
+#'
+#' @family \code{\link{MarkovMix}} utilities
+#'
+#' @example man-roxygen/ex-restate.R
+restate <- function(.object, .fun, .check = TRUE, ...) {
+  if (.check == TRUE && identical(class(.object), "MarkovMix") == FALSE) {
+    stop("[.object] should be a MarkovMix object")
+  }
+  .fun <- rlang::as_function(.fun)
+  args_list <- list(...)
+  states_mat <- get_states_mat(object = .object, check = FALSE)
+  states_mat_new <- states_mat %>%
+    as.data.frame() %>%
+    tibble::rowid_to_column(".row_id") %>%
+    dplyr::mutate_at(dplyr::vars(!c(".row_id")), ~ rlang::inject(.fun(.x, !!!args_list))) %>%
+    tidyr::drop_na(!c(".row_id")) %>%
+    dplyr::arrange_at(dplyr::vars(!c(".row_id")))
+  # Check level consistency
+  new_levels <- levels(dplyr::select(states_mat_new, -.row_id)[[1L]])
+  purrr::walk2(
+    dplyr::select(states_mat_new, -.row_id)[-1L],
+    seq_len(ncol(states_mat_new) - 1L)[-1L],
+    ~ if (identical(levels(.x), new_levels) == FALSE) {
+      stop("Factor levels inconsistency at variable ", .y)
+    }
+  )
+  states_mat_new_group_id <- states_mat_new %>%
+    dplyr::group_by_at(dplyr::vars(!c(".row_id"))) %>%
+    dplyr::group_indices()
+  count_mat <- .object[["counts"]]
+  count_mat_new <- count_mat[states_mat_new[[".row_id"]], , drop = FALSE] %>%
+    split(states_mat_new_group_id) %>%
+    colsums_by_group(ncol(count_mat))
+  res <- .object
+  res[["counts"]] <- count_mat_new
+  res[["states"]] <- new_levels
+  res
 }

@@ -49,7 +49,8 @@ cbind(
 \seealso{
 Other \code{\link{MarkovMix}} utilities: 
 \code{\link{get_prior}()},
-\code{\link{get_prob}()}
+\code{\link{get_prob}()},
+\code{\link{restate}()}
 }
 \author{
 Xiurui Zhu

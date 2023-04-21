@@ -47,7 +47,8 @@ cbind(
 \seealso{
 Other \code{\link{MarkovMix}} utilities: 
 \code{\link{get_prior}()},
-\code{\link{get_states_mat}()}
+\code{\link{get_states_mat}()},
+\code{\link{restate}()}
 }
 \author{
 Xiurui Zhu
