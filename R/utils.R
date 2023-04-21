@@ -118,7 +118,7 @@ preproc_seq_list <- function(seq_list, order.) {
     stop("[seq_list] does not contain any valid sub-sequences >= length ", order.)
   }
   seq_mat <- seq_df %>%
-    dplyr::select(-.seq_idx) %>%
+    dplyr::select(-.data[[".seq_idx"]]) %>%
     as.matrix()
   dimnames(seq_mat) <- NULL
   list(seq_mat = seq_mat, seq_idx = seq_df[[".seq_idx"]])
