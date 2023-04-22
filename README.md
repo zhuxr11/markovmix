@@ -16,7 +16,7 @@ coverage](https://codecov.io/gh/zhuxr11/markovmix/branch/master/graph/badge.svg)
 
 **Package**: [*markovmix*](https://github.com/zhuxr11/markovmix)
 0.1.0<br /> **Author**: Xiurui Zhu<br /> **Modified**: 2023-04-22
-10:32:44<br /> **Compiled**: 2023-04-22 10:32:48
+12:25:38<br /> **Compiled**: 2023-04-22 12:25:42
 
 The goal of `markovmix` is to fit mixture of Markov chains of higher
 orders from multiple sequences. It is also compatible with ordinary
@@ -52,6 +52,11 @@ library(markovmix)
 
 ``` r
 library(purrr)
+#> 
+#> Attaching package: 'purrr'
+#> The following object is masked from 'package:testthat':
+#> 
+#>     is_null
 
 # Define Markov states
 mk_states <- LETTERS[seq_len(4L)]
@@ -259,8 +264,9 @@ print(head(mk_pred_res_comp, n = 10L))
 ## Time of computation
 
 The core functions of `markovmix` are written with `Rcpp` to efficiently
-process sequences and probabilities. Here, time of computation is
-profiled with the number of sequences.
+process sequences and probabilities. Here, time of computation (ToC) is
+profiled with the number of sequences, where dots correspond to ToC
+medians and error bars to ToC quantiles.
 
 ``` r
 # Define sequence lengths for ToC profiling
@@ -274,30 +280,44 @@ mk_toc_clusters <- purrr::map(
   mk_toc_seq_len,
   ~ matrix(runif(.x * mk_n_comp), nrow = .x, ncol = mk_n_comp)
 )
-# Define repetition times for ToC profiling
-mk_toc_n_times <- 5L
-mk_toc <- purrr::map2(
-  mk_toc_seq_list,
-  mk_toc_clusters,
-  ~ purrr::rerun(.n = mk_toc_n_times, {
-    system.time(fit_markov_mix(.x, order. = 2L, states = mk_states, clusters = .y, verbose = FALSE))[["elapsed"]]
-  }) %>%
-    purrr::flatten_dbl()
+mk_toc_exprs <- purrr::map(
+  purrr::set_names(seq_along(mk_toc_seq_len), mk_toc_seq_len),
+  ~ rlang::expr(fit_markov_mix(
+    seq_list = mk_toc_seq_list[[!!.x]],
+    order. = 2L,
+    states = mk_states,
+    clusters = mk_toc_clusters[[!!.x]],
+    verbose = FALSE
+  ))
+)
+# Profile time of computation
+mk_toc <- bench::mark(
+  exprs = mk_toc_exprs,
+  min_time = Inf,
+  iterations = 5L,
+  filter_gc = FALSE,
+  check = FALSE
 )
 ```
 
 ``` r
-ggplot2::ggplot(tibble::tibble(seq_len = rep(mk_toc_seq_len, each = mk_toc_n_times),
-                               toc = unlist(mk_toc)) %>%
+mk_toc_plot_data <- mk_toc %>%
+  tibble::as_tibble() %>%
+  dplyr::select(expression, time) %>%
+  dplyr::rename(seq_len = expression, toc = time) %>%
+  dplyr::mutate_at("seq_len", ~ as.integer(names(.x))) %>%
+  dplyr::mutate_at("toc", ~ purrr::map(.x, unclass)) %>%
+  tidyr::unnest("toc")
+ggplot2::ggplot(mk_toc_plot_data %>%
                   dplyr::group_by(seq_len) %>%
-                  dplyr::summarize(toc_mean = mean(toc, na.rm = TRUE),
-                                   toc_sd = sd(toc, na.rm = TRUE),
+                  dplyr::summarize(toc_median = median(toc, na.rm = TRUE),
+                                   toc_min = quantile(toc, 0.25, na.rm = TRUE),
+                                   toc_max = quantile(toc, 0.75, na.rm = TRUE),
                                    .groups = "drop"),
-                ggplot2::aes(x = seq_len, y = toc_mean)) +
+                ggplot2::aes(x = seq_len, y = toc_median)) +
   ggplot2::geom_line() +
   ggplot2::geom_point() +
-  ggplot2::geom_errorbar(ggplot2::aes(ymin = pmax(toc_mean - toc_sd, 1e-4),
-                                      ymax = toc_mean + toc_sd)) +
+  ggplot2::geom_errorbar(ggplot2::aes(ymin = toc_min, ymax = toc_max)) +
   ggplot2::scale_x_log10(breaks = mk_toc_seq_len) +
   ggplot2::scale_y_log10() +
   ggplot2::theme_bw() +

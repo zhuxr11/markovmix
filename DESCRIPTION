@@ -24,6 +24,7 @@ Imports:
     tibble (>= 3.1.6),
     tidyr (>= 1.2.0)
 Suggests: 
+    bench (>= 1.1.2),
     covr,
     ggplot2 (>= 3.4.2),
     testthat (>= 3.1.7)
