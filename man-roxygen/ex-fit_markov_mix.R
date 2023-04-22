@@ -2,9 +2,9 @@
 test_states <- seq_len(4L)
 test_maxlen <- 10L
 set.seed(1111L)
-test_seq <- purrr::rerun(
-  .n = 100L,
-  sample(test_states, sample.int(test_maxlen, 1L), replace = TRUE)
+test_seq <- purrr::map(
+  seq_len(100L),
+  ~ sample(test_states, sample.int(test_maxlen, 1L), replace = TRUE)
 )
 
 # Fit a 1-order Markov chain

@@ -5,9 +5,9 @@ test_that("fit_markov_mix fits mixture of Markov chains", {
   test_states <- seq_len(4L)
   test_maxlen <- 10L
   set.seed(1111L)
-  test_seq <- purrr::rerun(
-    .n = 100L,
-    sample(test_states, sample.int(test_maxlen, 1L), replace = TRUE)
+  test_seq <- purrr::map(
+    seq_len(100L),
+    ~ sample(test_states, sample.int(test_maxlen, 1L), replace = TRUE)
   )
 
   # Markov chain
@@ -136,13 +136,13 @@ test_that("predict.MarkovMix predicts MarkovMix objects", {
   # Generate a new list of sequences
   set.seed(2222L)
   new_maxlen <- 8L
-  new_seq_list <- purrr::rerun(
-    .n = 50L,
-    sample(markov_mix_ex[["states"]], sample.int(10L, 1L), replace = TRUE)
+  new_seq_list <- purrr::map(
+    seq_len(50L),
+    ~ sample(markov_mix_ex[["states"]], sample.int(10L, 1L), replace = TRUE)
   )
-  new_seq_list_short <- purrr::rerun(
-    .n = 50L,
-    sample(markov_mix_ex[["states"]], sample.int(markov_mix_ex[["order"]], 1L), replace = TRUE)
+  new_seq_list_short <- purrr::map(
+    seq_len(50L),
+    ~ sample(markov_mix_ex[["states"]], sample.int(markov_mix_ex[["order"]], 1L), replace = TRUE)
   )
 
   # Predict MarkovMix

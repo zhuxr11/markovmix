@@ -72,7 +72,7 @@ gen_seq_list <- function(size, len_range, states, seed = NULL) {
   if (is.null(seed) == FALSE) {
     set.seed(seed)
   }
-  purrr::rerun(.n = size, sample(states, sample(len_range, 1L), replace = TRUE))
+  purrr::map(seq_len(size), ~ sample(states, sample(len_range, 1L), replace = TRUE))
 }
 mk_seq_list <- gen_seq_list(size = mk_size, len_range = mk_len_range, states = mk_states, seed = 1111L)
 head(mk_seq_list)

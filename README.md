@@ -16,7 +16,7 @@ coverage](https://codecov.io/gh/zhuxr11/markovmix/branch/master/graph/badge.svg)
 
 **Package**: [*markovmix*](https://github.com/zhuxr11/markovmix)
 0.1.0<br /> **Author**: Xiurui Zhu<br /> **Modified**: 2023-04-22
-12:25:38<br /> **Compiled**: 2023-04-22 12:25:42
+17:28:02<br /> **Compiled**: 2023-04-22 17:28:06
 
 The goal of `markovmix` is to fit mixture of Markov chains of higher
 orders from multiple sequences. It is also compatible with ordinary
@@ -69,7 +69,7 @@ gen_seq_list <- function(size, len_range, states, seed = NULL) {
   if (is.null(seed) == FALSE) {
     set.seed(seed)
   }
-  purrr::rerun(.n = size, sample(states, sample(len_range, 1L), replace = TRUE))
+  purrr::map(seq_len(size), ~ sample(states, sample(len_range, 1L), replace = TRUE))
 }
 mk_seq_list <- gen_seq_list(size = mk_size, len_range = mk_len_range, states = mk_states, seed = 1111L)
 head(mk_seq_list)

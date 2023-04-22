@@ -33,7 +33,7 @@ List split_seq(const List& seq_list, size_t len) {
 /*** R
 cat("Testing [split_seq] ...\n")
 set.seed(1111L)
-test_seq <- purrr::rerun(.n = 10L, sample(1L:4L, sample.int(10L, 1L), replace = TRUE))
+test_seq <- purrr::map(seq_len(10L), ~ sample(1L:4L, sample.int(10L, 1L), replace = TRUE))
 split_seq(seq_list = test_seq, len = 4L)
 */
 
