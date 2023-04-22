@@ -160,7 +160,7 @@ calc_seq_score <- function(seq_mat, states) {
 #'
 #' @noRd
 .check_MarkovMix <- function(object) {
-  if (is(object, "MarkovMix") == FALSE) {
+  if (inherits(object, "MarkovMix") == FALSE) {
     stop("[object] should be a MarkovMix object")
   }
   invisible(NULL)
