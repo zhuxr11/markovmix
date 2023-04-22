@@ -71,7 +71,7 @@ seq_list_to_factors <- function(seq_list, states = NULL, verbose = TRUE) {
       as.factor() %>%
       levels()
     if (verbose == TRUE) {
-      message("Generating states from sequence list: ", paste0(states, collapse = TRUE))
+      message("Generating states from sequence list: ", paste(states, collapse = ", "))
     }
   } else {
     states_bk <- states
