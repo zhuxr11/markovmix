@@ -75,7 +75,7 @@ seq_list_to_factors <- function(seq_list, states = NULL, verbose = TRUE) {
     }
   } else {
     states_bk <- states
-    states <- states_bk[is.na(states_bk) == FALSE]
+    states <- unique(states_bk[is.na(states_bk) == FALSE])
     if (identical(states, states_bk) == FALSE) {
       message("Refining [states]: ", paste(states_bk, collapse = ", "),
               " -> ", paste(states, collapse = ", "))
