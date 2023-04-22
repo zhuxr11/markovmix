@@ -130,7 +130,7 @@ print.MarkovMix <- function(x, sep = "->", print_max = 20L, print_min = 10L, ...
     ~ {
       trans_mat_comp <- states_df %>%
         tibble::add_column(.prob = prob_mat[, .x, drop = TRUE]) %>%
-        tidyr::unite(col = ".row_name", !c(dest_colname, ".prob"), sep = sep) %>%
+        tidyr::unite(col = ".row_name", !dplyr::all_of(c(dest_colname, ".prob")), sep = sep) %>%
         tidyr::pivot_wider(id_cols = ".row_name",
                            names_from = dplyr::all_of(dest_colname),
                            values_from = ".prob",

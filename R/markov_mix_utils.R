@@ -136,9 +136,9 @@ restate <- function(.object, .fun, .check = TRUE, ...) {
     tidyr::drop_na(!c(".row_id")) %>%
     dplyr::arrange_at(dplyr::vars(!c(".row_id")))
   # Check level consistency
-  new_levels <- levels(dplyr::select(states_mat_new, -.data[[".row_id"]])[[1L]])
+  new_levels <- levels(dplyr::select(states_mat_new, -dplyr::all_of(".row_id"))[[1L]])
   purrr::walk2(
-    dplyr::select(states_mat_new, -.data[[".row_id"]])[-1L],
+    dplyr::select(states_mat_new, -dplyr::all_of(".row_id"))[-1L],
     seq_len(ncol(states_mat_new) - 1L)[-1L],
     ~ if (identical(levels(.x), new_levels) == FALSE) {
       stop("Factor levels inconsistency at variable ", .y)
