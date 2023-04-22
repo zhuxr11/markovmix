@@ -145,3 +145,23 @@ preproc_seq_list <- function(seq_list, order.) {
 calc_seq_score <- function(seq_mat, states) {
   colSums(t(seq_mat - 1L) * length(states)^(rev(seq_len(ncol(seq_mat))) - 1L), na.rm = TRUE) + 1L
 }
+
+#' Check whether an object is MarkovMix or not
+#'
+#' @param object Object to check.
+#'
+#' @return Invisible \code{NULL}
+#'
+#' @note Change log:
+#' \itemize{
+#'   \item{0.1.0 Xiurui Zhu - Initiate the function.}
+#' }
+#' @author Xiurui Zhu
+#'
+#' @noRd
+.check_MarkovMix <- function(object) {
+  if (is(object, "MarkovMix") == FALSE) {
+    stop("[object] should be a MarkovMix object")
+  }
+  invisible(NULL)
+}

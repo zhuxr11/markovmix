@@ -27,8 +27,8 @@ NULL
 #'
 #' @example man-roxygen/ex-markov_mix_utils.R
 get_states_mat <- function(object, check = TRUE) {
-  if (check == TRUE && identical(class(object), "MarkovMix") == FALSE) {
-    stop("[object] should be a MarkovMix object")
+  if (check == TRUE) {
+    .check_MarkovMix(object = object)
   }
   states_df <- do.call(expand.grid, replicate(object[["order"]] + 1L, object[["states"]], simplify = FALSE)) %>%
     as.data.frame() %>%
@@ -60,8 +60,8 @@ get_states_mat <- function(object, check = TRUE) {
 #'
 #' @example man-roxygen/ex-markov_mix_utils.R
 get_prob <- function(object, check = TRUE) {
-  if (check == TRUE && identical(class(object), "MarkovMix") == FALSE) {
-    stop("[object] should be a MarkovMix object")
+  if (check == TRUE) {
+    .check_MarkovMix(object = object)
   }
   count_mat <- object[["counts"]]
   t(t(count_mat) / colSums(count_mat, na.rm = TRUE))
@@ -88,8 +88,8 @@ get_prob <- function(object, check = TRUE) {
 #'
 #' @example man-roxygen/ex-markov_mix_utils.R
 get_prior <- function(object, check = TRUE) {
-  if (check == TRUE && identical(class(object), "MarkovMix") == FALSE) {
-    stop("[object] should be a MarkovMix object")
+  if (check == TRUE) {
+    .check_MarkovMix(object = object)
   }
   count_mat <- object[["counts"]]
   comp_prior <- colSums(count_mat, na.rm = TRUE)
@@ -123,8 +123,8 @@ get_prior <- function(object, check = TRUE) {
 #'
 #' @example man-roxygen/ex-restate.R
 restate <- function(.object, .fun, .check = TRUE, ...) {
-  if (.check == TRUE && identical(class(.object), "MarkovMix") == FALSE) {
-    stop("[.object] should be a MarkovMix object")
+  if (.check == TRUE) {
+    .check_MarkovMix(object = .object)
   }
   .fun <- rlang::as_function(.fun)
   args_list <- list(...)
