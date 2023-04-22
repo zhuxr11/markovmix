@@ -127,6 +127,11 @@ test_that("print.MarkovMix prints MarkovMix objects", {
   expect_no_match(capture.output(print(markov_mix_ex)), "more row")
   expect_output(print(markov_mix_ex, print_max = 12L), "more rows")
   expect_output(print(markov_mix_ex, print_max = 15L, print_min = 15L), "more row(?!=s)", perl = TRUE)
+
+  # Error when count matrix has no components (columns)
+  markov_mix_ex_no_comp <- markov_mix_ex
+  markov_mix_ex_no_comp[["counts"]] <- markov_mix_ex_no_comp[["counts"]][, 0L, drop = FALSE]
+  expect_error(print(markov_mix_ex_no_comp), "No valid components")
 })
 
 test_that("predict.MarkovMix predicts MarkovMix objects", {
