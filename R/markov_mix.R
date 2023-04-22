@@ -91,7 +91,8 @@ fit_markov_mix <- function(seq_list, order. = 1L, states = NULL, clusters = NULL
 #'
 #' @param x \code{\link{MarkovMix}} object.
 #' @param sep Character (1L) used as separator between states in the row names of transition matrix.
-#' @param print_max Integer as the maximal number of rows to print each transition matrix.
+#' @param print_max,print_min Integers as the numbers of rows to print each transition matrix.
+#' See \code{\link[pillar]{pillar_options}} for details.
 #' @param ... Currently ignored for this method.
 #'
 #' @return Input \code{x}, invisibly.
@@ -107,7 +108,7 @@ fit_markov_mix <- function(seq_list, order. = 1L, states = NULL, clusters = NULL
 #' @family \code{\link{MarkovMix}} methods
 #'
 #' @example man-roxygen/ex-fit_markov_mix.R
-print.MarkovMix <- function(x, sep = "->", print_max = 10L, ...) {
+print.MarkovMix <- function(x, sep = "->", print_max = 20L, print_min = 10L, ...) {
   count_mat <- x[["counts"]]
   order. <- x[["order"]]
   states <- x[["states"]]
@@ -144,9 +145,9 @@ print.MarkovMix <- function(x, sep = "->", print_max = 10L, ...) {
       if (nrow(trans_mat_comp_norm) <= print_max) {
         print(trans_mat_comp_norm)
       } else {
-        print(head(trans_mat_comp_norm, n = print_max))
-        cat("# ... ", format(nrow(trans_mat_comp_norm) - print_max, big.mark = ","), " more ",
-            if (nrow(trans_mat_comp_norm) == print_max + 1L) "row" else "rows",
+        print(head(trans_mat_comp_norm, n = print_min))
+        cat("# ... ", format(nrow(trans_mat_comp_norm) - print_min, big.mark = ","), " more ",
+            if (nrow(trans_mat_comp_norm) == print_min + 1L) "row" else "rows",
             " in transition matrix ...\n", sep = "")
       }
     }

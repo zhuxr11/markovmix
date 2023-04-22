@@ -4,14 +4,15 @@
 \alias{print.MarkovMix}
 \title{Print MarkovMix object}
 \usage{
-\method{print}{MarkovMix}(x, sep = "->", print_max = 10L, ...)
+\method{print}{MarkovMix}(x, sep = "->", print_max = 20L, print_min = 10L, ...)
 }
 \arguments{
 \item{x}{\code{\link{MarkovMix}} object.}
 
 \item{sep}{Character (1L) used as separator between states in the row names of transition matrix.}
 
-\item{print_max}{Integer as the maximal number of rows to print each transition matrix.}
+\item{print_max, print_min}{Integers as the numbers of rows to print each transition matrix.
+See \code{\link[pillar]{pillar_options}} for details.}
 
 \item{...}{Currently ignored for this method.}
 }
