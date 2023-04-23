@@ -4,6 +4,8 @@
 
 * Replaced the super-assignment (`<<-`) with safer `rlang` environment binding.
 
+* Added links to examples of the methods in `DESCRIPTION`.
+
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note
