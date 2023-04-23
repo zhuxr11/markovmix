@@ -1,6 +1,8 @@
-## Resubmission of v0.1.0
+## Resubmission of markovmix 0.1.0
 
 * Added parentheses to functions in `DESCRIPTION` and `README.rmd`.
+
+* Replaced the super-assignment (`<<-`) with safer `rlang` environment binding.
 
 ## R CMD check results
 

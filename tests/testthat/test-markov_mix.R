@@ -11,11 +11,12 @@ test_that("fit_markov_mix fits mixture of Markov chains", {
   )
 
   # Markov chain
-  expect_message(markov_fit <<- fit_markov_mix(
+  expect_message(markov_fit <- fit_markov_mix(
     seq_list = test_seq,
     order. = 1L,
     states = test_states
   ), "a single.*component")
+  rlang::env_bind(rlang::env_parent(), markov_fit = markov_fit)
   # Infer states from sequences
   expect_message(fit_markov_mix(
     seq_list = test_seq,
