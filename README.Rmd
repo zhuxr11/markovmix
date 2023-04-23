@@ -29,7 +29,7 @@ knitr::opts_chunk$set(
 
 The goal of `markovmix` is to fit mixture of Markov chains of higher orders from multiple sequences.
 It is also compatible with ordinary 1-component, 1-order or single-sequence Markov chains.
-In addition to the fit function, custom print and predict functions are also provided.
+In addition to the fit function, custom `print()` and `predict()` functions are also provided.
 Core functions are written with `Rcpp` to efficiently process sequences and probabilities.
 
 ## Installation

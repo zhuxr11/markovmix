@@ -12,7 +12,7 @@ Maintainer: Xiurui Zhu <zxr6@163.com>
 Description: Fit mixture of Markov chains of higher orders from multiple
     sequences. It is also compatible with ordinary 1-component, 1-order or
     single-sequence Markov chains. In addition to the fit function, custom
-    print and predict functions are also provided.
+    print() and predict() functions are also provided.
 License: MIT + file LICENSE
 Depends: R (>= 3.5.0)
 Imports: 

@@ -15,15 +15,15 @@ coverage](https://codecov.io/gh/zhuxr11/markovmix/branch/master/graph/badge.svg)
 <!-- badges: end -->
 
 **Package**: [*markovmix*](https://github.com/zhuxr11/markovmix)
-0.1.0<br /> **Author**: Xiurui Zhu<br /> **Modified**: 2023-04-22
-17:28:02<br /> **Compiled**: 2023-04-22 17:28:06
+0.1.0<br /> **Author**: Xiurui Zhu<br /> **Modified**: 2023-04-23
+23:18:11<br /> **Compiled**: 2023-04-23 23:22:47
 
 The goal of `markovmix` is to fit mixture of Markov chains of higher
 orders from multiple sequences. It is also compatible with ordinary
 1-component, 1-order or single-sequence Markov chains. In addition to
-the fit function, custom print and predict functions are also provided.
-Core functions are written with `Rcpp` to efficiently process sequences
-and probabilities.
+the fit function, custom `print()` and `predict()` functions are also
+provided. Core functions are written with `Rcpp` to efficiently process
+sequences and probabilities.
 
 ## Installation
 
