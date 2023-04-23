@@ -41,9 +41,9 @@ data("markov_mix_ex")
 # Generate a new list of sequences
 set.seed(2222L)
 new_maxlen <- 8L
-new_seq_list <- purrr::rerun(
-  .n = 50L,
-  sample(markov_mix_ex[["states"]], sample.int(new_maxlen, 1L), replace = TRUE)
+new_seq_list <- purrr::map(
+  seq_len(50L),
+  ~ sample(markov_mix_ex[["states"]], sample.int(new_maxlen, 1L), replace = TRUE)
 )
 
 # Predict the probabilities of sequences
@@ -53,10 +53,10 @@ predict(markov_mix_ex, newdata = new_seq_list)
 predict(markov_mix_ex, newdata = new_seq_list, aggregate. = FALSE)
 }
 \seealso{
-Other \code{\link{MarkovMix}} methods: 
+Other MarkovMix methods: 
 \code{\link{print.MarkovMix}()}
 }
 \author{
 Xiurui Zhu
 }
-\concept{\code{\link{MarkovMix}} methods}
+\concept{MarkovMix methods}

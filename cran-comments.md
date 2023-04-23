@@ -6,6 +6,11 @@
 
 * Added links to examples of the methods in `DESCRIPTION`.
 
+* Removed mark-ups in `@family` tags.
+
+* Fixed the exceptionally low version requirement (>= 2.10) in `DESCRIPTION`.
+
+
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note

@@ -105,7 +105,7 @@ fit_markov_mix <- function(seq_list, order. = 1L, states = NULL, clusters = NULL
 #'
 #' @export
 #'
-#' @family \code{\link{MarkovMix}} methods
+#' @family MarkovMix methods
 #'
 #' @example man-roxygen/ex-fit_markov_mix.R
 print.MarkovMix <- function(x, sep = "->", print_max = 20L, print_min = 10L, ...) {
@@ -181,7 +181,7 @@ print.MarkovMix <- function(x, sep = "->", print_max = 20L, print_min = 10L, ...
 #'
 #' @export
 #'
-#' @family \code{\link{MarkovMix}} methods
+#' @family MarkovMix methods
 #'
 #' @example man-roxygen/ex-predict_markov_mix.R
 predict.MarkovMix <- function(object, newdata, aggregate. = TRUE, ...) {

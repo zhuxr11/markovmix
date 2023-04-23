@@ -23,7 +23,7 @@ NULL
 #'
 #' @export
 #'
-#' @family \code{\link{MarkovMix}} utilities
+#' @family MarkovMix utilities
 #'
 #' @example man-roxygen/ex-markov_mix_utils.R
 get_states_mat <- function(object, check = TRUE) {
@@ -56,7 +56,7 @@ get_states_mat <- function(object, check = TRUE) {
 #'
 #' @export
 #'
-#' @family \code{\link{MarkovMix}} utilities
+#' @family MarkovMix utilities
 #'
 #' @example man-roxygen/ex-markov_mix_utils.R
 get_prob <- function(object, check = TRUE) {
@@ -84,7 +84,7 @@ get_prob <- function(object, check = TRUE) {
 #'
 #' @export
 #'
-#' @family \code{\link{MarkovMix}} utilities
+#' @family MarkovMix utilities
 #'
 #' @example man-roxygen/ex-markov_mix_utils.R
 get_prior <- function(object, check = TRUE) {
@@ -119,7 +119,7 @@ get_prior <- function(object, check = TRUE) {
 #'
 #' @export
 #'
-#' @family \code{\link{MarkovMix}} utilities
+#' @family MarkovMix utilities
 #'
 #' @example man-roxygen/ex-restate.R
 restate <- function(.object, .fun, .check = TRUE, ...) {

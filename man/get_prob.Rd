@@ -45,7 +45,7 @@ cbind(
 )
 }
 \seealso{
-Other \code{\link{MarkovMix}} utilities: 
+Other MarkovMix utilities: 
 \code{\link{get_prior}()},
 \code{\link{get_states_mat}()},
 \code{\link{restate}()}
@@ -53,4 +53,4 @@ Other \code{\link{MarkovMix}} utilities:
 \author{
 Xiurui Zhu
 }
-\concept{\code{\link{MarkovMix}} utilities}
+\concept{MarkovMix utilities}

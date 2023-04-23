@@ -56,7 +56,7 @@ markov_mix_new3 <- restate(
 print(markov_mix_new3)
 }
 \seealso{
-Other \code{\link{MarkovMix}} utilities: 
+Other MarkovMix utilities: 
 \code{\link{get_prior}()},
 \code{\link{get_prob}()},
 \code{\link{get_states_mat}()}
@@ -64,4 +64,4 @@ Other \code{\link{MarkovMix}} utilities:
 \author{
 Xiurui Zhu
 }
-\concept{\code{\link{MarkovMix}} utilities}
+\concept{MarkovMix utilities}
