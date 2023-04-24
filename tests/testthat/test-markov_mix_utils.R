@@ -19,7 +19,7 @@ test_that("Get state transition patterns, probability matrices and component pri
 
   # Probability matrices
   expect_no_error(get_prob(markov_mix_ex))
-  expect_true(all(colSums(get_prob(markov_mix_ex), na.rm = TRUE) == 1))
+  expect_equal(colSums(get_prob(markov_mix_ex), na.rm = TRUE), rep(1, ncol(markov_mix_ex[["counts"]])))
 
   # Component priors
   expect_no_error(get_prior(markov_mix_ex))
