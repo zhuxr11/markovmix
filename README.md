@@ -15,8 +15,8 @@ coverage](https://codecov.io/gh/zhuxr11/markovmix/branch/master/graph/badge.svg)
 <!-- badges: end -->
 
 **Package**: [*markovmix*](https://github.com/zhuxr11/markovmix)
-0.1.0<br /> **Author**: Xiurui Zhu<br /> **Modified**: 2023-04-23
-23:18:11<br /> **Compiled**: 2023-04-23 23:22:47
+0.1.1<br /> **Author**: Xiurui Zhu<br /> **Modified**: 2023-04-24
+22:01:23<br /> **Compiled**: 2023-04-24 22:01:26
 
 The goal of `markovmix` is to fit mixture of Markov chains of higher
 orders from multiple sequences. It is also compatible with ordinary
