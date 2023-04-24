@@ -11,8 +11,10 @@ Authors@R:
 Maintainer: Xiurui Zhu <zxr6@163.com>
 Description: Fit mixture of Markov chains of higher orders from multiple
     sequences. It is also compatible with ordinary 1-component, 1-order or
-    single-sequence Markov chains. In addition, custom print() and predict()
-    functions are also provided <https://github.com/zhuxr11/markovmix>.
+    single-sequence Markov chains. Various utility functions are defined
+    to derive transition patterns, transition probabilities per component
+    and component priors. In addition, print() and predict() methods are also
+    provided as a convention of model fitting.
 License: MIT + file LICENSE
 Depends: R (>= 3.5.0)
 Imports: 
