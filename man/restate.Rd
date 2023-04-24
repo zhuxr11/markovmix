@@ -57,6 +57,7 @@ print(markov_mix_new3)
 }
 \seealso{
 Other MarkovMix utilities: 
+\code{\link{Extract.MarkovMix}},
 \code{\link{get_prior}()},
 \code{\link{get_prob}()},
 \code{\link{get_states_mat}()}

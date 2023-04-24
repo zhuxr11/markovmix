@@ -2,6 +2,8 @@
 
 ## Enhancements:
 
+* Add `[.MarkovMix()` and `[<-.MarkovMix()` methods to extract and replace components in a `MarkovMix` object.
+
 * Add `pillar` explicitly to imports, since it is mentioned in the documentation of `print.MarkovMix()` function.
 
 ## Bug fixes:

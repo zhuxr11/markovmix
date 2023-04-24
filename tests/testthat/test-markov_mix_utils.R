@@ -26,6 +26,22 @@ test_that("Get state transition patterns, probability matrices and component pri
   expect_equal(sum(get_prior(markov_mix_ex), na.rm = TRUE), 1)
 })
 
+test_that("Extracting and replacing components in MarkovMix objects", {
+  expect_no_error(markov_mix_ex[2L])
+  expect_no_error(markov_mix_ex[c(1L, 3L)])
+  # Subscript out of bounds error
+  expect_error(markov_mix_ex[ncol(markov_mix_ex[["counts"]]) + 1L])
+
+  markov_mix_ex2 <- markov_mix_ex
+  expect_no_error(markov_mix_ex2[2L] <- runif(length(markov_mix_ex[["states"]])^(markov_mix_ex[["order"]] + 1L)))
+  markov_mix_ex3 <- markov_mix_ex
+  expect_no_error(markov_mix_ex3[c(1L, 3L)] <- matrix(runif(length(markov_mix_ex[["states"]])^(markov_mix_ex[["order"]] + 1L) * 2L), ncol = 2L))
+  # Error when value is wrong length
+  expect_error(markov_mix_ex2[2L] <- runif(length(markov_mix_ex[["states"]])^(markov_mix_ex[["order"]] + 1L) - 1L), "is not 1 \\(recycled\\) or the same as")
+  # But it is OK to recycle value of length 1
+  expect_no_error(markov_mix_ex2[c(1L, 3L)] <- 0.5)
+})
+
 test_that("Reorganizing states in MarkovMix objects", {
   expect_no_error(restate(
     .object = markov_mix_ex,

@@ -96,6 +96,54 @@ get_prior <- function(object, check = TRUE) {
   comp_prior / sum(comp_prior, na.rm = TRUE)
 }
 
+
+#' Extract or replace components of MarkovMix object
+#'
+#' Operators to extract or replace components of a \code{\link{MarkovMix}} object.
+#'
+#' @aliases `[.MarkovMix`
+#'
+#' @param x \code{\link{MarkovMix}} object.
+#' @param i Indices specifying components to extract or replace.
+#'
+#' @note Change log:
+#' \itemize{
+#'   \item{0.1.1 Xiurui Zhu - Initiate the functions.}
+#' }
+#' @author Xiurui Zhu
+#'
+#' @export
+#'
+#' @family MarkovMix utilities
+#'
+#' @example man-roxygen/ex-markov_mix_utils.R
+#'
+#' @name Extract.MarkovMix
+`[.MarkovMix` <- function(x, i) {
+  res <- x
+  res[["counts"]] <- res[["counts"]][, i, drop = FALSE]
+  res
+}
+
+#' @aliases `[<-.MarkovMix`
+#' @param value Numeric matrix of \code{length(states)^(order + 1L)} rows and
+#' number of columns equal to that of components.
+#' @export
+#' @rdname Extract.MarkovMix
+`[<-.MarkovMix` <- function(x, i, value) {
+  if (is.matrix(value) == FALSE) {
+    value <- as.matrix(value)
+  }
+  if (nrow(value) != 1L && nrow(value) != nrow(x[["counts"]])) {
+    stop("Number of rows in [value] (", nrow(value), ") is not 1 (recycled) ",
+         "or the same as length([states])^([order] + 1L) (",
+         length(x[["states"]])^(x[["order"]] + 1L) , ")")
+  }
+  res <- x
+  res[["counts"]][, i] <- value
+  res
+}
+
 #' Reorganize states in MarkovMix object
 #'
 #' \code{restate} reorganizes states in \code{\link{MarkovMix}} object with a function.
