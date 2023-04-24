@@ -29,8 +29,9 @@ knitr::opts_chunk$set(
 
 The goal of `markovmix` is to fit mixture of Markov chains of higher orders from multiple sequences.
 It is also compatible with ordinary 1-component, 1-order or single-sequence Markov chains.
-Various utility functions are defined to derive transition patterns, transition probabilities per component
-and component priors. In addition, `print()` and `predict()` methods are also provided as a convention of model fitting.
+Various utility functions are provided to derive transition patterns, transition probabilities per component
+and component priors. In addition, `print()`, `predict()`  and component extracting/replacing methods
+are also defined as a convention of mixture models.
 
 ## Installation
 

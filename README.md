@@ -15,16 +15,16 @@ coverage](https://codecov.io/gh/zhuxr11/markovmix/branch/master/graph/badge.svg)
 <!-- badges: end -->
 
 **Package**: [*markovmix*](https://github.com/zhuxr11/markovmix)
-0.1.1<br /> **Author**: Xiurui Zhu<br /> **Modified**: 2023-04-24
-22:19:03<br /> **Compiled**: 2023-04-24 22:19:07
+0.1.1<br /> **Author**: Xiurui Zhu<br /> **Modified**: 2023-04-25
+00:16:50<br /> **Compiled**: 2023-04-25 00:16:53
 
 The goal of `markovmix` is to fit mixture of Markov chains of higher
 orders from multiple sequences. It is also compatible with ordinary
 1-component, 1-order or single-sequence Markov chains. Various utility
-functions are defined to derive transition patterns, transition
-probabilities per component and component priors. In addition, `print()`
-and `predict()` methods are also provided as a convention of model
-fitting.
+functions are provided to derive transition patterns, transition
+probabilities per component and component priors. In addition,
+`print()`, `predict()` and component extracting/replacing methods are
+also defined as a convention of mixture models.
 
 ## Installation
 
