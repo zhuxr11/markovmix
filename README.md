@@ -16,7 +16,7 @@ coverage](https://codecov.io/gh/zhuxr11/markovmix/branch/master/graph/badge.svg)
 
 **Package**: [*markovmix*](https://github.com/zhuxr11/markovmix)
 0.1.1<br /> **Author**: Xiurui Zhu<br /> **Modified**: 2023-04-25
-00:16:50<br /> **Compiled**: 2023-04-25 00:16:53
+00:46:25<br /> **Compiled**: 2023-04-25 00:46:28
 
 The goal of `markovmix` is to fit mixture of Markov chains of higher
 orders from multiple sequences. It is also compatible with ordinary
@@ -260,6 +260,365 @@ print(head(mk_pred_res_comp, n = 10L))
 #>  [8,] 3.447336e-08 5.003748e-08 4.150059e-09
 #>  [9,]           NA           NA           NA
 #> [10,]           NA           NA           NA
+```
+
+## Examples of utility functions
+
+We can use utility functions to derive state transition patterns,
+transition probabilities per component and component priors. The latter
+two are handy in predicting probabilities of new sequences.
+
+``` r
+# Derive state transition patterns
+print(get_states_mat(mk_mix_fit2), max = 20L)
+#>       [,1] [,2] [,3]
+#>  [1,] "A"  "A"  "A" 
+#>  [2,] "A"  "A"  "B" 
+#>  [3,] "A"  "A"  "C" 
+#>  [4,] "A"  "A"  "D" 
+#>  [5,] "A"  "B"  "A" 
+#>  [6,] "A"  "B"  "B" 
+#>  [ reached getOption("max.print") -- omitted 58 rows ]
+
+# Derive probabilities per component
+print(get_prob(mk_mix_fit2), max = 20L)
+#>              [,1]        [,2]        [,3]
+#>  [1,] 0.005990195 0.008100510 0.010528198
+#>  [2,] 0.018235734 0.018244177 0.021383789
+#>  [3,] 0.013760608 0.012792010 0.006930111
+#>  [4,] 0.013230333 0.023904467 0.012469057
+#>  [5,] 0.009821337 0.007609188 0.007568921
+#>  [6,] 0.010939206 0.008001192 0.014103584
+#>  [ reached getOption("max.print") -- omitted 58 rows ]
+
+# Derive component priors
+print(get_prior(mk_mix_fit2))
+#> [1] 0.3128880 0.3381894 0.3489226
+```
+
+We can also extract and replace components with new probabilities of
+observing these states.
+
+``` r
+# Extract 1 component
+print(mk_mix_fit2[2L], print_max = 6L, print_min = 6L)
+#> This is a 2-order Markov chain.
+#> Transition matrix:
+#>              A         B          C         D
+#> A->A 0.1284956 0.2894010 0.20291519 0.3791882
+#> A->B 0.1494962 0.1571978 0.24873975 0.4445663
+#> A->C 0.4032066 0.1863188 0.05041149 0.3600631
+#> A->D 0.2402465 0.2291546 0.24384583 0.2867531
+#> B->A 0.3800856 0.1427742 0.28533119 0.1918090
+#> B->B 0.3253459 0.3391998 0.07325431 0.2622000
+#> # ... 10 more rows in transition matrix ...
+
+# Extract multiple components
+print(mk_mix_fit2[c(1L, 3L)], print_max = 6L, print_min = 6L)
+#> This is a 2-component mixture of 2-order Markov chains.
+#> 
+#> Component 1: prior = 0.4727758
+#> Transition matrix:
+#>              A         B          C         D
+#> A->A 0.1169575 0.3560494 0.26867335 0.2583198
+#> A->B 0.1801687 0.2006756 0.26776742 0.3513882
+#> A->C 0.3175922 0.1573649 0.23078407 0.2942588
+#> A->D 0.1358512 0.2751465 0.24779010 0.3412122
+#> B->A 0.4378156 0.1175067 0.29539207 0.1492856
+#> B->B 0.2220438 0.4673616 0.06273356 0.2478610
+#> # ... 10 more rows in transition matrix ...
+#> 
+#> Component 2: prior = 0.5272242
+#> Transition matrix:
+#>              A         B          C         D
+#> A->A 0.2051834 0.4167474 0.13506052 0.2430087
+#> A->B 0.1258860 0.2345703 0.23658900 0.4029547
+#> A->C 0.3503198 0.2525063 0.21698667 0.1801872
+#> A->D 0.2103403 0.2498628 0.25618225 0.2836147
+#> B->A 0.1629778 0.1125546 0.35050154 0.3739660
+#> B->B 0.2046440 0.3642686 0.04421507 0.3868723
+#> # ... 10 more rows in transition matrix ...
+
+# Replace 1 component with random probabilities
+nrow_value <- length(mk_mix_fit2[["states"]])^(mk_mix_fit2[["order"]] + 1L)
+mk_mix_fit3 <- mk_mix_fit2
+mk_mix_fit3[2L] <- runif(nrow_value)
+print(mk_mix_fit3, print_max = 6L, print_min = 6L)
+#> This is a 3-component mixture of 2-order Markov chains.
+#> 
+#> Component 1: prior = 0.4197134
+#> Transition matrix:
+#>              A         B          C         D
+#> A->A 0.1169575 0.3560494 0.26867335 0.2583198
+#> A->B 0.1801687 0.2006756 0.26776742 0.3513882
+#> A->C 0.3175922 0.1573649 0.23078407 0.2942588
+#> A->D 0.1358512 0.2751465 0.24779010 0.3412122
+#> B->A 0.4378156 0.1175067 0.29539207 0.1492856
+#> B->B 0.2220438 0.4673616 0.06273356 0.2478610
+#> # ... 10 more rows in transition matrix ...
+#> 
+#> Component 2: prior = 0.1122358
+#> Transition matrix:
+#>               A          B          C          D
+#> A->A 0.37270939 0.03338717 0.07300962 0.52089382
+#> A->B 0.57930467 0.01201870 0.20629257 0.20238405
+#> A->C 0.04232536 0.07238305 0.26528854 0.62000305
+#> A->D 0.31995833 0.11868407 0.37102072 0.19033688
+#> B->A 0.17802811 0.30534510 0.30272770 0.21389909
+#> B->B 0.27842305 0.38530064 0.26457915 0.07169715
+#> # ... 10 more rows in transition matrix ...
+#> 
+#> Component 3: prior = 0.4680508
+#> Transition matrix:
+#>              A         B          C         D
+#> A->A 0.2051834 0.4167474 0.13506052 0.2430087
+#> A->B 0.1258860 0.2345703 0.23658900 0.4029547
+#> A->C 0.3503198 0.2525063 0.21698667 0.1801872
+#> A->D 0.2103403 0.2498628 0.25618225 0.2836147
+#> B->A 0.1629778 0.1125546 0.35050154 0.3739660
+#> B->B 0.2046440 0.3642686 0.04421507 0.3868723
+#> # ... 10 more rows in transition matrix ...
+
+# Replace multiple components with random probabilities
+mk_mix_fit4 <- mk_mix_fit2
+mk_mix_fit4[c(1L, 3L)] <- matrix(runif(nrow_value * 2L), ncol = 2L)
+print(mk_mix_fit4, print_max = 6L, print_min = 6L)
+#> This is a 3-component mixture of 2-order Markov chains.
+#> 
+#> Component 1: prior = 0.1678251
+#> Transition matrix:
+#>              A          B         C          D
+#> A->A 0.3909080 0.22506260 0.1662942 0.21773516
+#> A->B 0.1382053 0.06748158 0.3173323 0.47698083
+#> A->C 0.1123157 0.17273537 0.2176637 0.49728523
+#> A->D 0.1632157 0.26945396 0.4884251 0.07890522
+#> B->A 0.3288009 0.44999392 0.1891702 0.03203503
+#> B->B 0.4926177 0.26719685 0.1190136 0.12117187
+#> # ... 10 more rows in transition matrix ...
+#> 
+#> Component 2: prior = 0.6534454
+#> Transition matrix:
+#>              A         B          C         D
+#> A->A 0.1284956 0.2894010 0.20291519 0.3791882
+#> A->B 0.1494962 0.1571978 0.24873975 0.4445663
+#> A->C 0.4032066 0.1863188 0.05041149 0.3600631
+#> A->D 0.2402465 0.2291546 0.24384583 0.2867531
+#> B->A 0.3800856 0.1427742 0.28533119 0.1918090
+#> B->B 0.3253459 0.3391998 0.07325431 0.2622000
+#> # ... 10 more rows in transition matrix ...
+#> 
+#> Component 3: prior = 0.1787295
+#> Transition matrix:
+#>               A          B          C          D
+#> A->A 0.31185691 0.17773354 0.19499941 0.31541013
+#> A->B 0.01719693 0.15706207 0.40850149 0.41723951
+#> A->C 0.44002906 0.43478775 0.05759379 0.06758940
+#> A->D 0.13069194 0.28494238 0.26358193 0.32078375
+#> B->A 0.08618193 0.04479725 0.52657564 0.34244518
+#> B->B 0.60024718 0.18009911 0.20329150 0.01636221
+#> # ... 10 more rows in transition matrix ...
+
+# Replace multiple components with a single probability (recycled)
+mk_mix_fit5 <- mk_mix_fit2
+mk_mix_fit5[1L:2L] <- 0.5
+print(mk_mix_fit5, print_max = 6L, print_min = 6L)
+#> This is a 3-component mixture of 2-order Markov chains.
+#> 
+#> Component 1: prior = 0.1681467
+#> Transition matrix:
+#>         A    B    C    D
+#> A->A 0.25 0.25 0.25 0.25
+#> A->B 0.25 0.25 0.25 0.25
+#> A->C 0.25 0.25 0.25 0.25
+#> A->D 0.25 0.25 0.25 0.25
+#> B->A 0.25 0.25 0.25 0.25
+#> B->B 0.25 0.25 0.25 0.25
+#> # ... 10 more rows in transition matrix ...
+#> 
+#> Component 2: prior = 0.1681467
+#> Transition matrix:
+#>         A    B    C    D
+#> A->A 0.25 0.25 0.25 0.25
+#> A->B 0.25 0.25 0.25 0.25
+#> A->C 0.25 0.25 0.25 0.25
+#> A->D 0.25 0.25 0.25 0.25
+#> B->A 0.25 0.25 0.25 0.25
+#> B->B 0.25 0.25 0.25 0.25
+#> # ... 10 more rows in transition matrix ...
+#> 
+#> Component 3: prior = 0.6637065
+#> Transition matrix:
+#>              A         B          C         D
+#> A->A 0.2051834 0.4167474 0.13506052 0.2430087
+#> A->B 0.1258860 0.2345703 0.23658900 0.4029547
+#> A->C 0.3503198 0.2525063 0.21698667 0.1801872
+#> A->D 0.2103403 0.2498628 0.25618225 0.2836147
+#> B->A 0.1629778 0.1125546 0.35050154 0.3739660
+#> B->B 0.2046440 0.3642686 0.04421507 0.3868723
+#> # ... 10 more rows in transition matrix ...
+```
+
+We can also reorganize states with `restate()` by changing their order,
+renaming them or merging them.
+
+``` r
+# Reverse states (using function)
+print(restate(.object = mk_mix_fit2, .fun = forcats::fct_rev), print_max = 6L, print_min = 6L)
+#> This is a 3-component mixture of 2-order Markov chains.
+#> 
+#> Component 1: prior = 0.312888
+#> Transition matrix:
+#>              D          C         B         A
+#> D->D 0.3976844 0.04483108 0.3229447 0.2345398
+#> D->C 0.3616902 0.14752264 0.3194105 0.1713767
+#> D->B 0.3090801 0.19841956 0.3054860 0.1870143
+#> D->A 0.1724172 0.35763150 0.2455392 0.2244122
+#> C->D 0.2485385 0.33908336 0.1244539 0.2879243
+#> C->C 0.4195152 0.10758567 0.3332129 0.1396863
+#> # ... 10 more rows in transition matrix ...
+#> 
+#> Component 2: prior = 0.3381894
+#> Transition matrix:
+#>              D          C          B          A
+#> D->D 0.3940498 0.09271774 0.31915118 0.19408128
+#> D->C 0.3267150 0.29595372 0.33372856 0.04360268
+#> D->B 0.2082562 0.32438303 0.16990660 0.29745421
+#> D->A 0.1161142 0.41832253 0.17704552 0.28851779
+#> C->D 0.3345712 0.32613309 0.09901488 0.24028081
+#> C->C 0.2990490 0.22903167 0.19516483 0.27675454
+#> # ... 10 more rows in transition matrix ...
+#> 
+#> Component 3: prior = 0.3489226
+#> Transition matrix:
+#>              D          C          B          A
+#> D->D 0.3877017 0.07275535 0.32238695 0.21715603
+#> D->C 0.4740025 0.31415647 0.14851180 0.06332919
+#> D->B 0.3482137 0.22852548 0.16280505 0.26045575
+#> D->A 0.1757910 0.35383178 0.22986486 0.24051236
+#> C->D 0.2470376 0.36958004 0.08520182 0.29818056
+#> C->C 0.3941835 0.18177391 0.31382934 0.11021326
+#> # ... 10 more rows in transition matrix ...
+
+# Reorder states by hand (using function name with additional arguments)
+print(restate(
+  .object = mk_mix_fit2,
+  .fun = "levels<-",
+  value = c("B", "D", "C", "A")
+), print_max = 6L, print_min = 6L)
+#> This is a 3-component mixture of 2-order Markov chains.
+#> 
+#> Component 1: prior = 0.312888
+#> Transition matrix:
+#>              B         D          C         A
+#> B->B 0.1169575 0.3560494 0.26867335 0.2583198
+#> B->D 0.1801687 0.2006756 0.26776742 0.3513882
+#> B->C 0.3175922 0.1573649 0.23078407 0.2942588
+#> B->A 0.1358512 0.2751465 0.24779010 0.3412122
+#> D->B 0.4378156 0.1175067 0.29539207 0.1492856
+#> D->D 0.2220438 0.4673616 0.06273356 0.2478610
+#> # ... 10 more rows in transition matrix ...
+#> 
+#> Component 2: prior = 0.3381894
+#> Transition matrix:
+#>              B         D          C         A
+#> B->B 0.1284956 0.2894010 0.20291519 0.3791882
+#> B->D 0.1494962 0.1571978 0.24873975 0.4445663
+#> B->C 0.4032066 0.1863188 0.05041149 0.3600631
+#> B->A 0.2402465 0.2291546 0.24384583 0.2867531
+#> D->B 0.3800856 0.1427742 0.28533119 0.1918090
+#> D->D 0.3253459 0.3391998 0.07325431 0.2622000
+#> # ... 10 more rows in transition matrix ...
+#> 
+#> Component 3: prior = 0.3489226
+#> Transition matrix:
+#>              B         D          C         A
+#> B->B 0.2051834 0.4167474 0.13506052 0.2430087
+#> B->D 0.1258860 0.2345703 0.23658900 0.4029547
+#> B->C 0.3503198 0.2525063 0.21698667 0.1801872
+#> B->A 0.2103403 0.2498628 0.25618225 0.2836147
+#> D->B 0.1629778 0.1125546 0.35050154 0.3739660
+#> D->D 0.2046440 0.3642686 0.04421507 0.3868723
+#> # ... 10 more rows in transition matrix ...
+
+# Rename state B with E (using anonymous function)
+print(restate(
+  .object = mk_mix_fit2,
+  .fun = function(x) forcats::fct_recode(x, "E" = "B")
+), print_max = 6L, print_min = 6L)
+#> This is a 3-component mixture of 2-order Markov chains.
+#> 
+#> Component 1: prior = 0.312888
+#> Transition matrix:
+#>              A         E          C         D
+#> A->A 0.1169575 0.3560494 0.26867335 0.2583198
+#> A->E 0.1801687 0.2006756 0.26776742 0.3513882
+#> A->C 0.3175922 0.1573649 0.23078407 0.2942588
+#> A->D 0.1358512 0.2751465 0.24779010 0.3412122
+#> E->A 0.4378156 0.1175067 0.29539207 0.1492856
+#> E->E 0.2220438 0.4673616 0.06273356 0.2478610
+#> # ... 10 more rows in transition matrix ...
+#> 
+#> Component 2: prior = 0.3381894
+#> Transition matrix:
+#>              A         E          C         D
+#> A->A 0.1284956 0.2894010 0.20291519 0.3791882
+#> A->E 0.1494962 0.1571978 0.24873975 0.4445663
+#> A->C 0.4032066 0.1863188 0.05041149 0.3600631
+#> A->D 0.2402465 0.2291546 0.24384583 0.2867531
+#> E->A 0.3800856 0.1427742 0.28533119 0.1918090
+#> E->E 0.3253459 0.3391998 0.07325431 0.2622000
+#> # ... 10 more rows in transition matrix ...
+#> 
+#> Component 3: prior = 0.3489226
+#> Transition matrix:
+#>              A         E          C         D
+#> A->A 0.2051834 0.4167474 0.13506052 0.2430087
+#> A->E 0.1258860 0.2345703 0.23658900 0.4029547
+#> A->C 0.3503198 0.2525063 0.21698667 0.1801872
+#> A->D 0.2103403 0.2498628 0.25618225 0.2836147
+#> E->A 0.1629778 0.1125546 0.35050154 0.3739660
+#> E->E 0.2046440 0.3642686 0.04421507 0.3868723
+#> # ... 10 more rows in transition matrix ...
+
+# Merge state C into D (using purrr-style lambda function)
+print(restate(
+  .object = mk_mix_fit2,
+  .fun = ~ forcats::fct_recode(.x, "D" = "C")
+), print_max = 6L, print_min = 6L)
+#> This is a 3-component mixture of 2-order Markov chains.
+#> 
+#> Component 1: prior = 0.312888
+#> Transition matrix:
+#>              A         B         D
+#> A->A 0.1169575 0.3560494 0.5269932
+#> A->B 0.1801687 0.2006756 0.6191556
+#> A->D 0.2415194 0.2066657 0.5518149
+#> B->A 0.4378156 0.1175067 0.4446776
+#> B->B 0.2220438 0.4673616 0.3105946
+#> B->D 0.2990263 0.2031108 0.4978628
+#> # ... 3 more rows in transition matrix ...
+#> 
+#> Component 2: prior = 0.3381894
+#> Transition matrix:
+#>              A         B         D
+#> A->A 0.1284956 0.2894010 0.5821034
+#> A->B 0.1494962 0.1571978 0.6933061
+#> A->D 0.3362777 0.2039117 0.4598105
+#> B->A 0.3800856 0.1427742 0.4771402
+#> B->B 0.3253459 0.3391998 0.3354543
+#> B->D 0.3269993 0.2367533 0.4362474
+#> # ... 3 more rows in transition matrix ...
+#> 
+#> Component 3: prior = 0.3489226
+#> Transition matrix:
+#>              A         B         D
+#> A->A 0.2051834 0.4167474 0.3780692
+#> A->B 0.1258860 0.2345703 0.6395437
+#> A->D 0.2809334 0.2511959 0.4678706
+#> B->A 0.1629778 0.1125546 0.7244676
+#> B->B 0.2046440 0.3642686 0.4310874
+#> B->D 0.3533455 0.1723072 0.4743473
+#> # ... 3 more rows in transition matrix ...
 ```
 
 ## Time of computation

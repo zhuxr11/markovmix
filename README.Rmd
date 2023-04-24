@@ -132,6 +132,73 @@ mk_pred_res_comp <- predict(mk_mix_fit2, newdata = mk_pred_seq_list, aggregate. 
 print(head(mk_pred_res_comp, n = 10L))
 ```
 
+## Examples of utility functions
+
+We can use utility functions to derive state transition patterns, transition probabilities per component and component priors. The latter two are handy in predicting probabilities of new sequences.
+
+```{r}
+# Derive state transition patterns
+print(get_states_mat(mk_mix_fit2), max = 20L)
+
+# Derive probabilities per component
+print(get_prob(mk_mix_fit2), max = 20L)
+
+# Derive component priors
+print(get_prior(mk_mix_fit2))
+```
+
+We can also extract and replace components with new probabilities of observing these states.
+
+```{r}
+# Extract 1 component
+print(mk_mix_fit2[2L], print_max = 6L, print_min = 6L)
+
+# Extract multiple components
+print(mk_mix_fit2[c(1L, 3L)], print_max = 6L, print_min = 6L)
+
+# Replace 1 component with random probabilities
+nrow_value <- length(mk_mix_fit2[["states"]])^(mk_mix_fit2[["order"]] + 1L)
+mk_mix_fit3 <- mk_mix_fit2
+mk_mix_fit3[2L] <- runif(nrow_value)
+print(mk_mix_fit3, print_max = 6L, print_min = 6L)
+
+# Replace multiple components with random probabilities
+mk_mix_fit4 <- mk_mix_fit2
+mk_mix_fit4[c(1L, 3L)] <- matrix(runif(nrow_value * 2L), ncol = 2L)
+print(mk_mix_fit4, print_max = 6L, print_min = 6L)
+
+# Replace multiple components with a single probability (recycled)
+mk_mix_fit5 <- mk_mix_fit2
+mk_mix_fit5[1L:2L] <- 0.5
+print(mk_mix_fit5, print_max = 6L, print_min = 6L)
+```
+
+We can also reorganize states with `restate()` by changing their order, renaming them or merging them.
+
+```{r}
+# Reverse states (using function)
+print(restate(.object = mk_mix_fit2, .fun = forcats::fct_rev), print_max = 6L, print_min = 6L)
+
+# Reorder states by hand (using function name with additional arguments)
+print(restate(
+  .object = mk_mix_fit2,
+  .fun = "levels<-",
+  value = c("B", "D", "C", "A")
+), print_max = 6L, print_min = 6L)
+
+# Rename state B with E (using anonymous function)
+print(restate(
+  .object = mk_mix_fit2,
+  .fun = function(x) forcats::fct_recode(x, "E" = "B")
+), print_max = 6L, print_min = 6L)
+
+# Merge state C into D (using purrr-style lambda function)
+print(restate(
+  .object = mk_mix_fit2,
+  .fun = ~ forcats::fct_recode(.x, "D" = "C")
+), print_max = 6L, print_min = 6L)
+```
+
 ## Time of computation
 
 The core functions of `markovmix` are written with `Rcpp` to efficiently process sequences and probabilities. Here, time of computation (ToC) is profiled with the number of sequences, where dots correspond to ToC medians and error bars to ToC quantiles.
