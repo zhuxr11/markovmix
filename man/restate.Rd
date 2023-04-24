@@ -33,7 +33,7 @@ Change log:
 # Load example MarkovMix object
 data("markov_mix_ex")
 
-# Reverse states (using function name)
+# Reverse states (using function)
 markov_mix_new1 <- restate(
   .object = markov_mix_ex,
   .fun = forcats::fct_rev
