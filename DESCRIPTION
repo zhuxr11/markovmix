@@ -1,7 +1,7 @@
 Package: markovmix
 Title: Mixture of Markov Chains with Support of Higher Orders and Multiple
     Sequences
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
     person(given = "Xiurui",
            family = "Zhu",
