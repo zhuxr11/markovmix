@@ -1,3 +1,5 @@
+# markovmix 0.1.2
+
 # markovmix 0.1.1
 
 ## New features:
