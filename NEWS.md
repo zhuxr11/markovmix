@@ -4,6 +4,11 @@
 
 * Update package documentation.
 
+## Bug fixes:
+
+* Import `pillar::pillar_options` since it is mentioned in the documentation of `print.MarkovMix()`,
+as reported from platforms as notes that `pillar` is listed as "Imports" but no function is imported.
+
 
 # markovmix 0.1.1
 

@@ -89,6 +89,8 @@ fit_markov_mix <- function(seq_list, order. = 1L, states = NULL, clusters = NULL
 #' \code{print.MarkovMix} prints \code{\link{MarkovMix}} object in a user-friendly form,
 #' including component priors and transition matrices.
 #'
+#' @importFrom pillar pillar
+#'
 #' @param x \code{\link{MarkovMix}} object.
 #' @param sep Character (1L) used as separator between states in the row names of transition matrix.
 #' @param print_max,print_min Integers as the numbers of rows to print each transition matrix.
