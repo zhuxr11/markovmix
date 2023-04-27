@@ -1,5 +1,10 @@
 # markovmix 0.1.2
 
+## Enhancements:
+
+* Update package documentation.
+
+
 # markovmix 0.1.1
 
 ## New features:
