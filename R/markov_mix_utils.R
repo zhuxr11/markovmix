@@ -109,6 +109,7 @@ get_prior <- function(object, check = TRUE) {
 #' @note Change log:
 #' \itemize{
 #'   \item{0.1.1 Xiurui Zhu - Initiate the functions.}
+#'   \item{0.1.2 Xiurui Zhu - Update function documentation.}
 #' }
 #' @author Xiurui Zhu
 #'
@@ -126,8 +127,9 @@ get_prior <- function(object, check = TRUE) {
 }
 
 #' @aliases `[<-.MarkovMix`
-#' @param value Numeric matrix of \code{length(states)^(order + 1L)} rows and
-#' number of columns equal to that of components.
+#' @param value Numeric matrix as soft counts for transition patterns (like \code{x[["counts"]]}),
+#' whose rows correspond to the rows in \code{get_states_mat(x)}
+#' and columns correspond to the number of components to replace.
 #' @export
 #' @rdname Extract.MarkovMix
 `[<-.MarkovMix` <- function(x, i, value) {
