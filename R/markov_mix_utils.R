@@ -17,7 +17,7 @@ NULL
 #'
 #' @note Change log:
 #' \itemize{
-#'   \item{0.1.0 Xiurui Zhu - Initiate the class.}
+#'   \item{0.1.0 Xiurui Zhu - Initiate the function.}
 #' }
 #' @author Xiurui Zhu
 #'
@@ -50,7 +50,7 @@ get_states_mat <- function(object, check = TRUE) {
 #'
 #' @note Change log:
 #' \itemize{
-#'   \item{0.1.0 Xiurui Zhu - Initiate the class.}
+#'   \item{0.1.0 Xiurui Zhu - Initiate the function.}
 #' }
 #' @author Xiurui Zhu
 #'
@@ -78,7 +78,7 @@ get_prob <- function(object, check = TRUE) {
 #'
 #' @note Change log:
 #' \itemize{
-#'   \item{0.1.0 Xiurui Zhu - Initiate the class.}
+#'   \item{0.1.0 Xiurui Zhu - Initiate the function.}
 #' }
 #' @author Xiurui Zhu
 #'
@@ -163,7 +163,7 @@ get_prior <- function(object, check = TRUE) {
 #'
 #' @note Change log:
 #' \itemize{
-#'   \item{0.1.0 Xiurui Zhu - Initiate the class.}
+#'   \item{0.1.0 Xiurui Zhu - Initiate the function.}
 #' }
 #' @author Xiurui Zhu
 #'

@@ -24,7 +24,7 @@ The last column serves as the destination state and iterates the fastest.
 \note{
 Change log:
 \itemize{
-\item{0.1.0 Xiurui Zhu - Initiate the class.}
+\item{0.1.0 Xiurui Zhu - Initiate the function.}
 }
 }
 \examples{

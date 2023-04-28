@@ -26,7 +26,7 @@ A \code{\link{MarkovMix}} object with modified states and count matrix.
 \note{
 Change log:
 \itemize{
-\item{0.1.0 Xiurui Zhu - Initiate the class.}
+\item{0.1.0 Xiurui Zhu - Initiate the function.}
 }
 }
 \examples{

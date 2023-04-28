@@ -22,7 +22,7 @@ It normalizes each column in the count matrix to sum up to 1.
 \note{
 Change log:
 \itemize{
-\item{0.1.0 Xiurui Zhu - Initiate the class.}
+\item{0.1.0 Xiurui Zhu - Initiate the function.}
 }
 }
 \examples{
