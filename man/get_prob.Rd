@@ -29,6 +29,15 @@ Change log:
 # Load example MarkovMix object
 data("markov_mix_ex")
 
+# Derive transition pattern soft counts
+get_counts(object = markov_mix_ex)
+
+# Derive the order of Markov chains
+get_order(object = markov_mix_ex)
+
+# Derive the states of Markov chains
+get_states(object = markov_mix_ex)
+
 # Derive state transition patterns
 get_states_mat(markov_mix_ex)
 
@@ -49,7 +58,8 @@ markov_mix_ex[2L]
 markov_mix_ex[c(1L, 3L)]
 
 # Replace 1 or more components
-nrow_value <- length(markov_mix_ex[["states"]])^(markov_mix_ex[["order"]] + 1L)
+nrow_value <- length(get_states(object = markov_mix_ex, check = FALSE))^
+  (get_order(object = markov_mix_ex, check = FALSE) + 1L)
 markov_mix_ex2 <- markov_mix_ex
 markov_mix_ex2[2L] <- runif(nrow_value)
 print(markov_mix_ex2)
@@ -60,8 +70,11 @@ print(markov_mix_ex3)
 \seealso{
 Other MarkovMix utilities: 
 \code{\link{Extract.MarkovMix}},
+\code{\link{get_counts}()},
+\code{\link{get_order}()},
 \code{\link{get_prior}()},
 \code{\link{get_states_mat}()},
+\code{\link{get_states}()},
 \code{\link{restate}()}
 }
 \author{

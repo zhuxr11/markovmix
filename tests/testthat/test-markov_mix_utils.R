@@ -1,13 +1,20 @@
 library(testthat)
 
+test_that("Get counts, order and states", {
+  data("markov_mix_ex")
+  expect_identical(get_counts(object = markov_mix_ex), markov_mix_ex[["counts"]])
+  expect_identical(get_order(object = markov_mix_ex), markov_mix_ex[["order"]])
+  expect_identical(get_states(object = markov_mix_ex), markov_mix_ex[["states"]])
+})
+
 test_that("Get state transition patterns, probability matrices and component priors", {
   # Load example MarkovMix object
   data("markov_mix_ex")
 
   # Transition patterns
   states_mat_test <- do.call(expand.grid,
-                             replicate(markov_mix_ex[["order"]] + 1L,
-                                       markov_mix_ex[["states"]],
+                             replicate(get_order(object = markov_mix_ex, check = FALSE) + 1L,
+                                       get_states(object = markov_mix_ex, check = FALSE),
                                        simplify = FALSE))
   states_mat_test <- as.matrix(states_mat_test)[, rev(seq_len(ncol(states_mat_test))), drop = FALSE]
   dimnames(states_mat_test) <- NULL
@@ -19,7 +26,7 @@ test_that("Get state transition patterns, probability matrices and component pri
 
   # Probability matrices
   expect_no_error(get_prob(markov_mix_ex))
-  expect_equal(colSums(get_prob(markov_mix_ex), na.rm = TRUE), rep(1, ncol(markov_mix_ex[["counts"]])))
+  expect_equal(colSums(get_prob(markov_mix_ex), na.rm = TRUE), rep(1, ncol(get_counts(object = markov_mix_ex, check = FALSE))))
 
   # Component priors
   expect_no_error(get_prior(markov_mix_ex))
@@ -30,14 +37,19 @@ test_that("Extracting and replacing components in MarkovMix objects", {
   expect_no_error(markov_mix_ex[2L])
   expect_no_error(markov_mix_ex[c(1L, 3L)])
   # Subscript out of bounds error
-  expect_error(markov_mix_ex[ncol(markov_mix_ex[["counts"]]) + 1L])
+  expect_error(markov_mix_ex[ncol(get_counts(object = markov_mix_ex, check = FALSE)) + 1L])
 
   markov_mix_ex2 <- markov_mix_ex
-  expect_no_error(markov_mix_ex2[2L] <- runif(length(markov_mix_ex[["states"]])^(markov_mix_ex[["order"]] + 1L)))
+  expect_no_error(markov_mix_ex2[2L] <- runif(length(get_states(object = markov_mix_ex, check = FALSE))^
+                                                (get_order(object = markov_mix_ex, check = FALSE) + 1L)))
   markov_mix_ex3 <- markov_mix_ex
-  expect_no_error(markov_mix_ex3[c(1L, 3L)] <- matrix(runif(length(markov_mix_ex[["states"]])^(markov_mix_ex[["order"]] + 1L) * 2L), ncol = 2L))
+  expect_no_error(markov_mix_ex3[c(1L, 3L)] <- matrix(runif(length(get_states(object = markov_mix_ex, check = FALSE))^
+                                                              (get_order(object = markov_mix_ex, check = FALSE) + 1L) * 2L),
+                                                      ncol = 2L))
   # Error when value is wrong length
-  expect_error(markov_mix_ex2[2L] <- runif(length(markov_mix_ex[["states"]])^(markov_mix_ex[["order"]] + 1L) - 1L), "is not 1 \\(recycled\\) or the same as")
+  expect_error(markov_mix_ex2[2L] <- runif(length(get_states(object = markov_mix_ex, check = FALSE))^
+                                             (get_order(object = markov_mix_ex, check = FALSE) + 1L) - 1L),
+               "is not 1 \\(recycled\\) or the same as")
   # But it is OK to recycle value of length 1
   expect_no_error(markov_mix_ex2[c(1L, 3L)] <- 0.5)
 })

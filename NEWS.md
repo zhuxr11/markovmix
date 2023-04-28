@@ -1,5 +1,10 @@
 # markovmix 0.1.2
 
+## New features:
+
+* Add `get_counts()`, `get_order()` and `get_states()` functions to get members of a `MarkovMix` object
+in an easier way.
+
 ## Enhancements:
 
 * Update package documentation.

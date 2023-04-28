@@ -58,9 +58,12 @@ print(markov_mix_new3)
 \seealso{
 Other MarkovMix utilities: 
 \code{\link{Extract.MarkovMix}},
+\code{\link{get_counts}()},
+\code{\link{get_order}()},
 \code{\link{get_prior}()},
 \code{\link{get_prob}()},
-\code{\link{get_states_mat}()}
+\code{\link{get_states_mat}()},
+\code{\link{get_states}()}
 }
 \author{
 Xiurui Zhu

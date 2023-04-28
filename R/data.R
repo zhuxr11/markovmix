@@ -1,9 +1,9 @@
 #' Mixture of Markov chain example
 #'
 #' A mixture of 2-order Markov chain fit from 100 random sequences
-#' with `r length(markov_mix_ex[["states"]])` states
-#' (`r paste(markov_mix_ex[["states"]], sep = ", ")`)
-#' and `r ncol(markov_mix_ex[["counts"]])` components.
+#' with `r length(get_states(object = markov_mix_ex, check = FALSE))` states
+#' (`r paste(get_states(object = markov_mix_ex, check = FALSE), sep = ", ")`)
+#' and `r ncol(get_counts(object = markov_mix_ex, check = FALSE))` components.
 #'
 #' @format A \code{\link{MarkovMix}} object.
 #'

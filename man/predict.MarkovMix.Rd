@@ -43,7 +43,9 @@ set.seed(2222L)
 new_maxlen <- 8L
 new_seq_list <- purrr::map(
   seq_len(50L),
-  ~ sample(markov_mix_ex[["states"]], sample.int(new_maxlen, 1L), replace = TRUE)
+  ~ sample(get_states(object = markov_mix_ex, check = FALSE),
+           sample.int(new_maxlen, 1L),
+           replace = TRUE)
 )
 
 # Predict the probabilities of sequences

@@ -131,7 +131,7 @@ test_that("print.MarkovMix prints MarkovMix objects", {
 
   # Error when count matrix has no components (columns)
   markov_mix_ex_no_comp <- markov_mix_ex
-  markov_mix_ex_no_comp[["counts"]] <- markov_mix_ex_no_comp[["counts"]][, 0L, drop = FALSE]
+  markov_mix_ex_no_comp[["counts"]] <- get_counts(object = markov_mix_ex_no_comp, check = FALSE)[, 0L, drop = FALSE]
   expect_error(print(markov_mix_ex_no_comp), "No valid components")
 })
 
@@ -144,11 +144,13 @@ test_that("predict.MarkovMix predicts MarkovMix objects", {
   new_maxlen <- 8L
   new_seq_list <- purrr::map(
     seq_len(50L),
-    ~ sample(markov_mix_ex[["states"]], sample.int(10L, 1L), replace = TRUE)
+    ~ sample(get_states(object = markov_mix_ex, check = FALSE), sample.int(10L, 1L), replace = TRUE)
   )
   new_seq_list_short <- purrr::map(
     seq_len(50L),
-    ~ sample(markov_mix_ex[["states"]], sample.int(markov_mix_ex[["order"]], 1L), replace = TRUE)
+    ~ sample(get_states(object = markov_mix_ex, check = FALSE),
+             sample.int(get_order(object = markov_mix_ex, check = FALSE), 1L),
+             replace = TRUE)
   )
 
   # Predict MarkovMix

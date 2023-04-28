@@ -30,9 +30,12 @@ get_states_mat <- function(object, check = TRUE) {
   if (check == TRUE) {
     .check_MarkovMix(object = object)
   }
-  states_df <- do.call(expand.grid, replicate(object[["order"]] + 1L, object[["states"]], simplify = FALSE)) %>%
+  states_df <- do.call(expand.grid,
+                       replicate(get_order(object = object, check = FALSE) + 1L,
+                                 get_states(object = object, check = FALSE),
+                                 simplify = FALSE)) %>%
     as.data.frame() %>%
-    dplyr::mutate_all(~ factor(.x, levels = object[["states"]])) %>%
+    dplyr::mutate_all(~ factor(.x, levels = get_states(object = object, check = FALSE))) %>%
     dplyr::arrange_all()
   states_mat <- as.matrix(states_df)
   dimnames(states_mat) <- NULL
@@ -63,7 +66,7 @@ get_prob <- function(object, check = TRUE) {
   if (check == TRUE) {
     .check_MarkovMix(object = object)
   }
-  count_mat <- object[["counts"]]
+  count_mat <- get_counts(object = object, check = FALSE)
   t(t(count_mat) / colSums(count_mat, na.rm = TRUE))
 }
 
@@ -91,11 +94,90 @@ get_prior <- function(object, check = TRUE) {
   if (check == TRUE) {
     .check_MarkovMix(object = object)
   }
-  count_mat <- object[["counts"]]
+  count_mat <- get_counts(object = object, check = FALSE)
   comp_prior <- colSums(count_mat, na.rm = TRUE)
   comp_prior / sum(comp_prior, na.rm = TRUE)
 }
 
+#' Get transition pattern counts from MarkovFit object
+#'
+#' \code{get_counts} gets transition pattern counts from \code{\link{MarkovMix}} object.
+#'
+#' @inheritParams get_states_mat
+#'
+#' @return A numeric matrix indicates transition pattern (soft) counts,
+#' where each row corresponds to a transition pattern and each column
+#' corresponds to a component.
+#'
+#' @note Change log:
+#' \itemize{
+#'   \item{0.1.2 Xiurui Zhu - Initiate the function.}
+#' }
+#' @author Xiurui Zhu
+#'
+#' @export
+#'
+#' @family MarkovMix utilities
+#'
+#' @example man-roxygen/ex-markov_mix_utils.R
+get_counts <- function(object, check = TRUE) {
+  if (check == TRUE) {
+    .check_MarkovMix(object = object)
+  }
+  object[["counts"]]
+}
+
+#' Get the order of Markov chains
+#'
+#' \code{get_order} gets the order of Markov chains from \code{\link{MarkovMix}} object.
+#'
+#' @inheritParams get_states_mat
+#'
+#' @return An integer as the order of Markov chains.
+#'
+#' @note Change log:
+#' \itemize{
+#'   \item{0.1.2 Xiurui Zhu - Initiate the function.}
+#' }
+#' @author Xiurui Zhu
+#'
+#' @export
+#'
+#' @family MarkovMix utilities
+#'
+#' @example man-roxygen/ex-markov_mix_utils.R
+get_order <- function(object, check = TRUE) {
+  if (check == TRUE) {
+    .check_MarkovMix(object = object)
+  }
+  object[["order"]]
+}
+
+#' Get the states of Markov chains
+#'
+#' \code{get_states} gets the states of Markov chains from \code{\link{MarkovMix}} object.
+#'
+#' @inheritParams get_states_mat
+#'
+#' @return A vector as the states used in Markov chains.
+#'
+#' @note Change log:
+#' \itemize{
+#'   \item{0.1.2 Xiurui Zhu - Initiate the function.}
+#' }
+#' @author Xiurui Zhu
+#'
+#' @export
+#'
+#' @family MarkovMix utilities
+#'
+#' @example man-roxygen/ex-markov_mix_utils.R
+get_states <- function(object, check = TRUE) {
+  if (check == TRUE) {
+    .check_MarkovMix(object = object)
+  }
+  object[["states"]]
+}
 
 #' Extract or replace components of MarkovMix object
 #'
@@ -122,12 +204,12 @@ get_prior <- function(object, check = TRUE) {
 #' @name Extract.MarkovMix
 `[.MarkovMix` <- function(x, i) {
   res <- x
-  res[["counts"]] <- res[["counts"]][, i, drop = FALSE]
+  res[["counts"]] <- get_counts(object = x, check = FALSE)[, i, drop = FALSE]
   res
 }
 
 #' @aliases `[<-.MarkovMix`
-#' @param value Numeric matrix as soft counts for transition patterns (like \code{x[["counts"]]}),
+#' @param value Numeric matrix as soft counts for transition patterns (like \code{get_counts(object = x)}),
 #' whose rows correspond to the rows in \code{get_states_mat(x)}
 #' and columns correspond to the number of components to replace.
 #' @export
@@ -136,10 +218,10 @@ get_prior <- function(object, check = TRUE) {
   if (is.matrix(value) == FALSE) {
     value <- as.matrix(value)
   }
-  if (nrow(value) != 1L && nrow(value) != nrow(x[["counts"]])) {
+  if (nrow(value) != 1L && nrow(value) != nrow(get_counts(object = x, check = FALSE))) {
     stop("Number of rows in [value] (", nrow(value), ") is not 1 (recycled) ",
          "or the same as length([states])^([order] + 1L) (",
-         length(x[["states"]])^(x[["order"]] + 1L) , ")")
+         length(get_states(object = x, check = FALSE))^(get_order(object = x, check = FALSE) + 1L) , ")")
   }
   res <- x
   res[["counts"]][, i] <- value
@@ -197,7 +279,7 @@ restate <- function(.object, .fun, .check = TRUE, ...) {
   states_mat_new_group_id <- states_mat_new %>%
     dplyr::group_by_at(dplyr::vars(!c(".row_id"))) %>%
     dplyr::group_indices()
-  count_mat <- .object[["counts"]]
+  count_mat <- get_counts(object = .object, check = FALSE)
   count_mat_new <- count_mat[states_mat_new[[".row_id"]], , drop = FALSE] %>%
     split(states_mat_new_group_id) %>%
     colsums_by_group(ncol(count_mat))

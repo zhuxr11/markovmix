@@ -157,7 +157,8 @@ print(mk_mix_fit2[2L], print_max = 6L, print_min = 6L)
 print(mk_mix_fit2[c(1L, 3L)], print_max = 6L, print_min = 6L)
 
 # Replace 1 component with random probabilities
-nrow_value <- length(mk_mix_fit2[["states"]])^(mk_mix_fit2[["order"]] + 1L)
+nrow_value <- length(get_states(object = mk_mix_fit2, check = FALSE))^
+  (get_order(object = mk_mix_fit2, check = FALSE) + 1L)
 mk_mix_fit3 <- mk_mix_fit2
 mk_mix_fit3[2L] <- runif(nrow_value)
 print(mk_mix_fit3, print_max = 6L, print_min = 6L)
