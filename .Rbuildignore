@@ -10,3 +10,4 @@
 ^man-roxygen$
 _cache$
 ^cran-comments\.md$
+^\.covrignore$
