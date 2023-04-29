@@ -20,6 +20,7 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/markovmix)](https://CRAN.R-project.org/package=markovmix)
 [![R-CMD-check](https://github.com/zhuxr11/markovmix/workflows/R-CMD-check/badge.svg)](https://github.com/zhuxr11/markovmix/actions)
 [![Codecov test coverage](https://codecov.io/gh/zhuxr11/markovmix/branch/master/graph/badge.svg)](https://app.codecov.io/gh/zhuxr11/markovmix?branch=master)
+[![Download stats](https://cranlogs.r-pkg.org/badges/grand-total/markovmix)](https://cran.rstudio.com/web/packages/markovmix/index.html)
 <!-- badges: end -->
 
 **Package**: [*markovmix*](https://github.com/zhuxr11/markovmix) `r pkgload::pkg_version()`<br />

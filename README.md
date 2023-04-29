@@ -12,11 +12,13 @@ status](https://www.r-pkg.org/badges/version/markovmix)](https://CRAN.R-project.
 [![R-CMD-check](https://github.com/zhuxr11/markovmix/workflows/R-CMD-check/badge.svg)](https://github.com/zhuxr11/markovmix/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/zhuxr11/markovmix/branch/master/graph/badge.svg)](https://app.codecov.io/gh/zhuxr11/markovmix?branch=master)
+[![Download
+stats](https://cranlogs.r-pkg.org/badges/grand-total/markovmix)](https://cran.rstudio.com/web/packages/markovmix/index.html)
 <!-- badges: end -->
 
 **Package**: [*markovmix*](https://github.com/zhuxr11/markovmix)
-0.1.2<br /> **Author**: Xiurui Zhu<br /> **Modified**: 2023-04-28
-23:16:10<br /> **Compiled**: 2023-04-28 23:16:14
+0.1.2<br /> **Author**: Xiurui Zhu<br /> **Modified**: 2023-04-29
+13:41:56<br /> **Compiled**: 2023-04-29 13:42:00
 
 The goal of `markovmix` is to fit mixture of Markov chains of higher
 orders from multiple sequences. It is also compatible with ordinary
