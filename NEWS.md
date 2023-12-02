@@ -1,5 +1,10 @@
 # markovmix 0.1.3
 
+## Bug fixes
+
+* Update `RcppExports.R` and `RcppExports.cpp` with `Rcpp@4a8d30f` on GitHub to resolve warnings listed in issue: https://github.com/RcppCore/Rcpp/issues/1287.
+
+
 # markovmix 0.1.2
 
 ## New features:

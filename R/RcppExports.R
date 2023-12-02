@@ -56,5 +56,5 @@ colsums_by_group <- function(value_list, n_col) {
 
 # Register entry points for exported C++ functions
 methods::setLoadAction(function(ns) {
-    .Call('_markovmix_RcppExport_registerCCallable', PACKAGE = 'markovmix')
+    .Call(`_markovmix_RcppExport_registerCCallable`)
 })

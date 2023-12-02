@@ -1,3 +1,8 @@
+## Submission of markovmix 0.1.3
+
+* Fixed warnings from `r-devel` on regards with `Rcpp` with the solution in issue: https://github.com/RcppCore/Rcpp/issues/1287.
+
+
 ## Resubmission of markovmix 0.1.0
 
 * Added parentheses to functions in `DESCRIPTION` and `README.Rmd`.

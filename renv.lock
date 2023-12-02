@@ -45,10 +45,15 @@
     },
     "Rcpp": {
       "Package": "Rcpp",
-      "Version": "1.0.8.3",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "32e79b908fda56ee57fe518a8d37b864",
+      "Version": "1.0.11.6",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "RcppCore",
+      "RemoteRepo": "Rcpp",
+      "RemoteRef": "master",
+      "RemoteSha": "4a8d30f9e0be955016c174b8a21965694c90b576",
+      "Hash": "92aaca2dfe965f420da5e352d399f447",
       "Requirements": []
     },
     "askpass": {
