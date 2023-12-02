@@ -17,8 +17,8 @@ stats](https://cranlogs.r-pkg.org/badges/grand-total/markovmix)](https://CRAN.R-
 <!-- badges: end -->
 
 **Package**: [*markovmix*](https://github.com/zhuxr11/markovmix)
-0.1.2<br /> **Author**: Xiurui Zhu<br /> **Modified**: 2023-05-26
-19:42:22<br /> **Compiled**: 2023-05-26 19:42:25
+0.1.3<br /> **Author**: Xiurui Zhu<br /> **Modified**: 2023-05-26
+19:42:22<br /> **Compiled**: 2023-12-02 18:34:35
 
 The goal of `markovmix` is to fit mixture of Markov chains of higher
 orders from multiple sequences. It is also compatible with ordinary
